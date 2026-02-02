@@ -34,28 +34,11 @@ export default function Teaching() {
 
         {/* Right Sidebar - Control Buttons */}
         <div className="w-24 flex flex-col gap-3 justify-center">
-          <Button
-            variant="default"
-            className="h-14"
-            onClick={handleStart}
-            disabled={isStarted && !isPaused}
-          >
+          <Button variant="default" className="h-14" onClick={handleStart} disabled={isStarted && !isPaused}>
             開始
           </Button>
-          <Button
-            variant="outline"
-            className="h-14"
-            onClick={handlePause}
-            disabled={!isStarted}
-          >
-            暫停
-          </Button>
-          <Button
-            variant="default"
-            className="h-14"
-            onClick={handleEnd}
-            disabled={!isStarted}
-          >
+
+          <Button variant="default" className="h-14" onClick={handleEnd} disabled={!isStarted}>
             結束
           </Button>
         </div>
