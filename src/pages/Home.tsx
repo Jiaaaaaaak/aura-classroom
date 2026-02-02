@@ -18,35 +18,23 @@ export default function Home() {
   ];
 
   const filteredHistory = historyItems.filter(
-    (item) =>
-      item.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.date.includes(searchQuery)
+    (item) => item.topic.toLowerCase().includes(searchQuery.toLowerCase()) || item.date.includes(searchQuery),
   );
 
   return (
     <div className="min-h-screen bg-background p-6">
       <h1 className="text-2xl font-semibold mb-6">Homepage</h1>
-      
+
       <div className="flex gap-6">
         {/* Left Sidebar - Action Buttons */}
         <div className="w-48 space-y-3">
-          <Button
-            variant="outline"
-            className="w-full justify-start h-12"
-            onClick={() => navigate("/teaching")}
-          >
-            開始教課
+          <Button variant="outline" className="w-full justify-start h-12" onClick={() => navigate("/teaching")}>
+            開始對話
           </Button>
-          <Button
-            variant="outline"
-            className="w-full justify-start h-12"
-          >
+          <Button variant="outline" className="w-full justify-start h-12">
             使用說明
           </Button>
-          <Button
-            variant="outline"
-            className="w-full justify-start h-12"
-          >
+          <Button variant="outline" className="w-full justify-start h-12">
             個人資料
           </Button>
         </div>
@@ -69,25 +57,17 @@ export default function Home() {
             </div>
             <div className="space-y-2">
               {filteredHistory.map((item) => (
-                <div
-                  key={item.id}
-                  className="py-2 border-b border-dashed border-border last:border-0"
-                >
+                <div key={item.id} className="py-2 border-b border-dashed border-border last:border-0">
                   <span className="text-sm text-muted-foreground">{item.date}</span>
                   <span className="ml-4">{item.topic}</span>
                 </div>
               ))}
               {filteredHistory.length === 0 && searchQuery && (
-                <div className="py-2 text-muted-foreground text-sm">
-                  找不到符合的紀錄
-                </div>
+                <div className="py-2 text-muted-foreground text-sm">找不到符合的紀錄</div>
               )}
               {/* Empty placeholder rows */}
               {[...Array(Math.max(0, 5 - filteredHistory.length))].map((_, i) => (
-                <div
-                  key={`empty-${i}`}
-                  className="py-2 border-b border-dashed border-border"
-                >
+                <div key={`empty-${i}`} className="py-2 border-b border-dashed border-border">
                   <span className="text-muted-foreground/30">---</span>
                 </div>
               ))}
