@@ -101,7 +101,7 @@ export default function Home() {
           </Button>
           <div className="flex-1" />
           <Button variant="outline" className="w-full justify-center h-12" onClick={handleLogout}>
-            離開
+            登出
           </Button>
         </div>
       </div>
