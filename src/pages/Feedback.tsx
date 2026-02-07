@@ -14,29 +14,7 @@ const radarData = [
 ];
 
 const defaultChatHistory = [
-  { role: "user", content: "老師好，我想了解光合作用的過程。" },
-  {
-    role: "assistant",
-    content: "好的！光合作用是植物將光能轉化為化學能的過程。主要發生在葉綠體中，分為光反應和暗反應兩個階段。",
-  },
-  { role: "user", content: "光反應是什麼？" },
-  {
-    role: "assistant",
-    content: "光反應發生在葉綠體的類囊體膜上，需要光照。水分子被分解，產生氧氣、ATP和NADPH。這些能量載體會用於暗反應。",
-  },
-  { role: "user", content: "那暗反應呢？" },
-  {
-    role: "assistant",
-    content: "暗反應又稱卡爾文循環，發生在葉綠體基質中，不需要直接光照。利用ATP和NADPH將二氧化碳固定並轉化為葡萄糖。",
-  },
-  { role: "user", content: "所以植物晚上也能進行暗反應嗎？" },
-  {
-    role: "assistant",
-    content:
-      "理論上可以，但實際上暗反應需要光反應產生的ATP和NADPH，所以主要還是在白天進行。晚上這些能量載體會很快耗盡。",
-  },
-  { role: "user", content: "了解了，謝謝老師的解釋！" },
-  { role: "assistant", content: "不客氣！你的問題問得很好，能夠循序漸進地理解概念。如果還有其他問題，隨時可以問我。" },
+  { role: "assistant", content: "您好，我是您的教育顧問專家，對於剛剛的回顧有任何問題都歡迎問我~" },
 ];
 
 const defaultExpertFeedback = `整體表現評估：
@@ -115,13 +93,13 @@ export default function Feedback() {
     <ScrollArea className="h-screen">
       <div className="min-h-screen bg-background p-6">
         {/* Top Section: Left (Feedback + Radar) | Right (AI Coach Chat) */}
-        <div className="flex gap-5">
+        <div className="flex gap-6">
           {/* Left Side - Expert Feedback & Radar Chart */}
           <div className="w-1/2 flex flex-col">
             <h1 className="text-2xl font-semibold mb-4">專家回饋</h1>
 
             {/* Expert Feedback Text with scroll, no border */}
-            <ScrollArea className="h-[380px] mb-4">
+            <ScrollArea className="h-[280px] mb-4">
               <p className="text-sm text-foreground whitespace-pre-line leading-relaxed pr-3">
                 {defaultExpertFeedback}
               </p>
@@ -129,7 +107,7 @@ export default function Feedback() {
 
             {/* Radar Chart */}
             <div className="flex items-center justify-center">
-              <ResponsiveContainer width="100%" height={380}>
+              <ResponsiveContainer width="100%" height={280}>
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="hsl(var(--border))" />
                   <PolarAngleAxis dataKey="subject" tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }} />
@@ -152,7 +130,7 @@ export default function Feedback() {
           {/* Right Side - AI Coach Chat */}
           <div className="w-1/2 flex flex-col gap-4">
             <div className="flex-1 border rounded-lg p-4">
-              <h2 className="text-lg font-medium mb-4">對話紀錄</h2>
+              <h2 className="text-lg font-medium mb-4">回顧討論</h2>
               <div className="space-y-4">
                 {defaultChatHistory.map((message, index) => (
                   <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
