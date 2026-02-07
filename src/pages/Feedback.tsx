@@ -121,7 +121,7 @@ export default function Feedback() {
             <h1 className="text-2xl font-semibold mb-4">專家回饋</h1>
 
             {/* Expert Feedback Text with scroll, no border */}
-            <ScrollArea className="h-[400px] mb-4">
+            <ScrollArea className="h-[380px] mb-4">
               <p className="text-sm text-foreground whitespace-pre-line leading-relaxed pr-3">
                 {defaultExpertFeedback}
               </p>
@@ -129,7 +129,7 @@ export default function Feedback() {
 
             {/* Radar Chart */}
             <div className="flex items-center justify-center">
-              <ResponsiveContainer width="100%" height={400}>
+              <ResponsiveContainer width="100%" height={380}>
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="hsl(var(--border))" />
                   <PolarAngleAxis dataKey="subject" tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }} />
