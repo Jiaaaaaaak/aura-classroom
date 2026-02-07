@@ -115,7 +115,7 @@ export default function Feedback() {
     <ScrollArea className="h-screen">
       <div className="min-h-screen bg-background p-6">
         {/* Top Section: Left (Feedback + Radar) | Right (AI Coach Chat) */}
-        <div className="flex gap-6">
+        <div className="flex gap-5">
           {/* Left Side - Expert Feedback & Radar Chart */}
           <div className="w-1/2 flex flex-col">
             <h1 className="text-2xl font-semibold mb-4">專家回饋</h1>
