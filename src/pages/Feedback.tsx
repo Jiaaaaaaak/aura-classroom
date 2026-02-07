@@ -3,13 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  ResponsiveContainer,
-} from "recharts";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from "recharts";
 
 const radarData = [
   { subject: "清晰度", value: 80 },
@@ -21,13 +15,26 @@ const radarData = [
 
 const defaultChatHistory = [
   { role: "user", content: "老師好，我想了解光合作用的過程。" },
-  { role: "assistant", content: "好的！光合作用是植物將光能轉化為化學能的過程。主要發生在葉綠體中，分為光反應和暗反應兩個階段。" },
+  {
+    role: "assistant",
+    content: "好的！光合作用是植物將光能轉化為化學能的過程。主要發生在葉綠體中，分為光反應和暗反應兩個階段。",
+  },
   { role: "user", content: "光反應是什麼？" },
-  { role: "assistant", content: "光反應發生在葉綠體的類囊體膜上，需要光照。水分子被分解，產生氧氣、ATP和NADPH。這些能量載體會用於暗反應。" },
+  {
+    role: "assistant",
+    content: "光反應發生在葉綠體的類囊體膜上，需要光照。水分子被分解，產生氧氣、ATP和NADPH。這些能量載體會用於暗反應。",
+  },
   { role: "user", content: "那暗反應呢？" },
-  { role: "assistant", content: "暗反應又稱卡爾文循環，發生在葉綠體基質中，不需要直接光照。利用ATP和NADPH將二氧化碳固定並轉化為葡萄糖。" },
+  {
+    role: "assistant",
+    content: "暗反應又稱卡爾文循環，發生在葉綠體基質中，不需要直接光照。利用ATP和NADPH將二氧化碳固定並轉化為葡萄糖。",
+  },
   { role: "user", content: "所以植物晚上也能進行暗反應嗎？" },
-  { role: "assistant", content: "理論上可以，但實際上暗反應需要光反應產生的ATP和NADPH，所以主要還是在白天進行。晚上這些能量載體會很快耗盡。" },
+  {
+    role: "assistant",
+    content:
+      "理論上可以，但實際上暗反應需要光反應產生的ATP和NADPH，所以主要還是在白天進行。晚上這些能量載體會很快耗盡。",
+  },
   { role: "user", content: "了解了，謝謝老師的解釋！" },
   { role: "assistant", content: "不客氣！你的問題問得很好，能夠循序漸進地理解概念。如果還有其他問題，隨時可以問我。" },
 ];
@@ -66,15 +73,34 @@ const defaultExpertFeedback = `整體表現評估：
 const defaultTranscript = [
   { role: "teacher", content: "同學們好，今天我們要來學習光合作用。有沒有人知道什麼是光合作用？" },
   { role: "student", content: "老師好！是不是植物用陽光製造食物的過程？" },
-  { role: "teacher", content: "說得很好！光合作用就是植物利用光能，將二氧化碳和水轉化為葡萄糖和氧氣的過程。那你們知道這個過程主要發生在植物的哪個部位嗎？" },
+  {
+    role: "teacher",
+    content:
+      "說得很好！光合作用就是植物利用光能，將二氧化碳和水轉化為葡萄糖和氧氣的過程。那你們知道這個過程主要發生在植物的哪個部位嗎？",
+  },
   { role: "student", content: "葉子？" },
-  { role: "teacher", content: "對！更精確地說，是在葉子細胞中的葉綠體裡進行的。葉綠體含有葉綠素，這就是為什麼葉子是綠色的。" },
+  {
+    role: "teacher",
+    content: "對！更精確地說，是在葉子細胞中的葉綠體裡進行的。葉綠體含有葉綠素，這就是為什麼葉子是綠色的。",
+  },
   { role: "student", content: "那光合作用的化學方程式是什麼？" },
-  { role: "teacher", content: "光合作用的總反應方程式是：6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂。簡單來說，六分子的二氧化碳加上六分子的水，在光能的驅動下，產生一分子的葡萄糖和六分子的氧氣。" },
+  {
+    role: "teacher",
+    content:
+      "光合作用的總反應方程式是：6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂。簡單來說，六分子的二氧化碳加上六分子的水，在光能的驅動下，產生一分子的葡萄糖和六分子的氧氣。",
+  },
   { role: "student", content: "所以我們呼吸的氧氣都是植物製造的嗎？" },
-  { role: "teacher", content: "大部分是的！地球上大約70%的氧氣來自海洋中的藻類和浮游植物，剩下的30%來自陸地上的植物。所以保護森林和海洋生態系統非常重要。" },
+  {
+    role: "teacher",
+    content:
+      "大部分是的！地球上大約70%的氧氣來自海洋中的藻類和浮游植物，剩下的30%來自陸地上的植物。所以保護森林和海洋生態系統非常重要。",
+  },
   { role: "student", content: "了解了！那光合作用分為哪些階段呢？" },
-  { role: "teacher", content: "光合作用主要分為兩個階段：光反應和暗反應。光反應需要光照，發生在類囊體膜上；暗反應不需要直接光照，發生在葉綠體基質中。我們下次課再詳細討論這兩個階段。" },
+  {
+    role: "teacher",
+    content:
+      "光合作用主要分為兩個階段：光反應和暗反應。光反應需要光照，發生在類囊體膜上；暗反應不需要直接光照，發生在葉綠體基質中。我們下次課再詳細討論這兩個階段。",
+  },
 ];
 
 export default function Feedback() {
@@ -95,7 +121,7 @@ export default function Feedback() {
             <h1 className="text-2xl font-semibold mb-4">專家回饋</h1>
 
             {/* Expert Feedback Text with scroll, no border */}
-            <ScrollArea className="h-[280px] mb-4">
+            <ScrollArea className="h-[400px] mb-4">
               <p className="text-sm text-foreground whitespace-pre-line leading-relaxed pr-3">
                 {defaultExpertFeedback}
               </p>
@@ -103,19 +129,11 @@ export default function Feedback() {
 
             {/* Radar Chart */}
             <div className="flex items-center justify-center">
-              <ResponsiveContainer width="100%" height={280}>
+              <ResponsiveContainer width="100%" height={400}>
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="hsl(var(--border))" />
-                  <PolarAngleAxis
-                    dataKey="subject"
-                    tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }}
-                  />
-                  <Radar
-                    dataKey="value"
-                    stroke="hsl(var(--primary))"
-                    fill="hsl(var(--primary))"
-                    fillOpacity={0.3}
-                  />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }} />
+                  <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} />
                 </RadarChart>
               </ResponsiveContainer>
             </div>
@@ -137,15 +155,10 @@ export default function Feedback() {
               <h2 className="text-lg font-medium mb-4">對話紀錄</h2>
               <div className="space-y-4">
                 {defaultChatHistory.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                  >
+                  <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                     <div
                       className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                        message.role === "user"
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-foreground"
+                        message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
                       }`}
                     >
                       <p className="text-sm">{message.content}</p>
