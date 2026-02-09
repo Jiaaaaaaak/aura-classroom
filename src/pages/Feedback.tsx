@@ -4,19 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from "recharts";
-
-const radarData = [
-  { subject: "清晰度", value: 80 },
-  { subject: "互動性", value: 65 },
-  { subject: "內容", value: 90 },
-  { subject: "節奏", value: 70 },
-  { subject: "表達", value: 85 },
-];
-
-const defaultChatHistory = [
-  { role: "assistant", content: "您好，我是您的教育顧問專家，對於剛剛的回顧有任何問題都歡迎問我~" },
-];
-
+const radarData = [{
+  subject: "清晰度",
+  value: 80
+}, {
+  subject: "互動性",
+  value: 65
+}, {
+  subject: "內容",
+  value: 90
+}, {
+  subject: "節奏",
+  value: 70
+}, {
+  subject: "表達",
+  value: 85
+}];
+const defaultChatHistory = [{
+  role: "assistant",
+  content: "您好，我是您的教育顧問專家，對於剛剛的回顧有任何問題都歡迎問我~"
+}];
 const defaultExpertFeedback = `整體表現評估：
 
 您在這次教學互動中展現了良好的教學技巧。以下是詳細的專家分析：
@@ -47,50 +54,47 @@ const defaultExpertFeedback = `整體表現評估：
 
 【總結】
 整體教學品質優良，持續保持並加強互動性將使教學效果更佳。建議未來可以多嘗試不同的教學策略，找到最適合自己風格的互動方式。`;
-
-const defaultTranscript = [
-  { role: "teacher", content: "同學們好，今天我們要來學習光合作用。有沒有人知道什麼是光合作用？" },
-  { role: "student", content: "老師好！是不是植物用陽光製造食物的過程？" },
-  {
-    role: "teacher",
-    content:
-      "說得很好！光合作用就是植物利用光能，將二氧化碳和水轉化為葡萄糖和氧氣的過程。那你們知道這個過程主要發生在植物的哪個部位嗎？",
-  },
-  { role: "student", content: "葉子？" },
-  {
-    role: "teacher",
-    content: "對！更精確地說，是在葉子細胞中的葉綠體裡進行的。葉綠體含有葉綠素，這就是為什麼葉子是綠色的。",
-  },
-  { role: "student", content: "那光合作用的化學方程式是什麼？" },
-  {
-    role: "teacher",
-    content:
-      "光合作用的總反應方程式是：6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂。簡單來說，六分子的二氧化碳加上六分子的水，在光能的驅動下，產生一分子的葡萄糖和六分子的氧氣。",
-  },
-  { role: "student", content: "所以我們呼吸的氧氣都是植物製造的嗎？" },
-  {
-    role: "teacher",
-    content:
-      "大部分是的！地球上大約70%的氧氣來自海洋中的藻類和浮游植物，剩下的30%來自陸地上的植物。所以保護森林和海洋生態系統非常重要。",
-  },
-  { role: "student", content: "了解了！那光合作用分為哪些階段呢？" },
-  {
-    role: "teacher",
-    content:
-      "光合作用主要分為兩個階段：光反應和暗反應。光反應需要光照，發生在類囊體膜上；暗反應不需要直接光照，發生在葉綠體基質中。我們下次課再詳細討論這兩個階段。",
-  },
-];
-
+const defaultTranscript = [{
+  role: "teacher",
+  content: "同學們好，今天我們要來學習光合作用。有沒有人知道什麼是光合作用？"
+}, {
+  role: "student",
+  content: "老師好！是不是植物用陽光製造食物的過程？"
+}, {
+  role: "teacher",
+  content: "說得很好！光合作用就是植物利用光能，將二氧化碳和水轉化為葡萄糖和氧氣的過程。那你們知道這個過程主要發生在植物的哪個部位嗎？"
+}, {
+  role: "student",
+  content: "葉子？"
+}, {
+  role: "teacher",
+  content: "對！更精確地說，是在葉子細胞中的葉綠體裡進行的。葉綠體含有葉綠素，這就是為什麼葉子是綠色的。"
+}, {
+  role: "student",
+  content: "那光合作用的化學方程式是什麼？"
+}, {
+  role: "teacher",
+  content: "光合作用的總反應方程式是：6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂。簡單來說，六分子的二氧化碳加上六分子的水，在光能的驅動下，產生一分子的葡萄糖和六分子的氧氣。"
+}, {
+  role: "student",
+  content: "所以我們呼吸的氧氣都是植物製造的嗎？"
+}, {
+  role: "teacher",
+  content: "大部分是的！地球上大約70%的氧氣來自海洋中的藻類和浮游植物，剩下的30%來自陸地上的植物。所以保護森林和海洋生態系統非常重要。"
+}, {
+  role: "student",
+  content: "了解了！那光合作用分為哪些階段呢？"
+}, {
+  role: "teacher",
+  content: "光合作用主要分為兩個階段：光反應和暗反應。光反應需要光照，發生在類囊體膜上；暗反應不需要直接光照，發生在葉綠體基質中。我們下次課再詳細討論這兩個階段。"
+}];
 export default function Feedback() {
   const navigate = useNavigate();
   const [userInput, setUserInput] = useState("");
-
   const handleChatWithExpert = () => {
     console.log("Chat with expert:", userInput);
   };
-
-  return (
-    <ScrollArea className="h-screen">
+  return <ScrollArea className="h-screen">
       <div className="min-h-screen bg-background p-6 max-w-5xl mx-auto">
         {/* Top Section: Left (Feedback + Radar) | Right (AI Coach Chat) */}
         <div className="flex gap-6">
@@ -110,7 +114,10 @@ export default function Feedback() {
               <ResponsiveContainer width="100%" height={280}>
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="hsl(var(--border))" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }} />
+                  <PolarAngleAxis dataKey="subject" tick={{
+                  fill: "hsl(var(--foreground))",
+                  fontSize: 12
+                }} />
                   <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} />
                 </RadarChart>
               </ResponsiveContainer>
@@ -132,28 +139,17 @@ export default function Feedback() {
             <div className="flex-1 border rounded-lg p-4">
               <h2 className="text-lg font-medium mb-4">回顧討論</h2>
               <div className="space-y-4">
-                {defaultChatHistory.map((message, index) => (
-                  <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                    <div
-                      className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                        message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
-                      }`}
-                    >
+                {defaultChatHistory.map((message, index) => <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
+                    <div className={`max-w-[80%] rounded-lg px-4 py-2 ${message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>
                       <p className="text-sm">{message.content}</p>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </div>
 
             {/* User Input Area */}
             <div className="border rounded-lg p-4 space-y-3">
-              <Textarea
-                placeholder="輸入文字..."
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                className="min-h-[100px] resize-none"
-              />
+              <Textarea placeholder="輸入文字..." value={userInput} onChange={e => setUserInput(e.target.value)} className="min-h-[100px] resize-none" />
               <div className="flex justify-end">
                 <Button variant="outline" onClick={handleChatWithExpert}>
                   與專家對話
@@ -164,20 +160,17 @@ export default function Feedback() {
         </div>
 
         {/* Bottom Section - Chatroom Transcript, no border */}
-        <div className="mt-8 flex flex-col items-center">
+        <div className="mt-8 flex-col flex items-start justify-center">
           <h2 className="text-xl font-semibold mb-4">教學逐字稿</h2>
           <div className="space-y-3 max-w-2xl w-full">
-            {defaultTranscript.map((entry, index) => (
-              <div key={index}>
+            {defaultTranscript.map((entry, index) => <div key={index}>
                 <span className="text-sm font-medium text-muted-foreground">
                   {entry.role === "teacher" ? "【老師】" : "【學生】"}
                 </span>
                 <p className="text-sm text-foreground mt-1">{entry.content}</p>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </div>
-    </ScrollArea>
-  );
+    </ScrollArea>;
 }
