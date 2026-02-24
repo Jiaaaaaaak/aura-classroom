@@ -127,7 +127,7 @@ export default function Feedback() {
         <div className="grid grid-cols-3 gap-6" style={{ height: "620px" }}>
           {/* Left - Radar Chart */}
           <div className="flex flex-col h-full overflow-hidden">
-            <h2 className="text-xl font-semibold mb-4">效能分析</h2>
+            <h2 className="text-xl font-semibold mb-4">SEL 指標分析</h2>
             <div className="flex-1 flex items-center justify-center">
               <ResponsiveContainer width="100%" height={350}>
                 <RadarChart data={radarData}>
