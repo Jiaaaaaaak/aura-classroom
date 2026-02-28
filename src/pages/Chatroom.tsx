@@ -1,4 +1,5 @@
 import { useState } from "react";
+import classroomBg from "@/assets/classroom-background.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -201,7 +202,7 @@ export default function Chatroom() {
         </div>
 
         {/* Content area */}
-        <div className="flex-1 relative overflow-hidden bg-[#FAF9F6]">
+        <div className="flex-1 relative overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${classroomBg})` }}>
           {/* Paused overlay */}
           {isStarted && isPaused && (
             <div className="absolute inset-0 flex items-center justify-center z-10 bg-background/40 backdrop-blur-sm">
