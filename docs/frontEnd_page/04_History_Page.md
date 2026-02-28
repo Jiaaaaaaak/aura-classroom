@@ -1,32 +1,21 @@
-# 歷史紀錄頁面 (History Page IA)
+# 歷史紀錄與進步軌跡規範 (History & Tracker Spec)
 
-`/history` 頁面用於回溯用戶過去在平台上進行過的對話紀錄。
+`/history` 頁面不只是列表，它是用戶「成長的可視化證明」。
 
-## 1. 頁面功能 (Functions)
-- **紀錄列表**: 列出所有歷史練習的日期與主題。
-- **搜尋過濾**: 透過主題關鍵字或日期快速查找。
-- **詳情查閱**: (預留) 未來可點擊跳轉至該次對話的詳細回饋。
+## 1. 視覺設計 (Visual Design)
+*   **Search Bar**: 採用 `shadcn/ui` Input 搭配邊界漸層效果。
+*   **List Item**: 
+    - 採用輕量化的 Card 容器。
+    - Hover 效果：`border-primary/50`, `scale-[1.01]` 微幅放大感。
 
-## 2. 頁面組件與布局 (IA Hierarchy)
-- **標題區 (Header)**:
-    - `HamburgerMenu`: 導航。
-    - **標題**: "歷史紀錄" (text-2xl)。
+## 2. 交互邏輯
+*   **Skeleton Loading**: 當加載大量歷史數據時，應顯示與列表結構一致的 `Pulse` 骨架屏。
+*   **Empty State**: 顯示溫暖的插圖與 "還沒有練習紀錄嗎？去對話空間看看吧！" 的引導按鈕。
 
-- **內容卡片 (Card)**:
-    - **卡片標題**: "所有紀錄"。
-    - **搜尋欄**: `Input` + `Search` icon (pl-9 樣式)。
-    - **列表區**:
-        - 循環渲染 `div` (py-3, border-b)。
-        - **左側**: 日期 (`text-muted-foreground`)。
-        - **右側**: 對話主題。
-    - **空狀態**: 當找不到符合項目的提示。
+## 3. 搜尋優化
+*   支持關鍵字 (主題、情境) 與日期範圍過濾。
+*   輸入時具備 `Debounce` (300ms)，減少無意義的渲染負擔。
 
-## 3. 交互邏輯 (User Flow & Interactions)
-- **即時搜尋**: 使用 `filter` 函數對 Mock Data 進行即時過濾，響應 `searchQuery` 狀態的變化。
-- **視覺交互**: 列表項目具備 `hover:bg-muted/50` 及 `cursor-pointer` 提示。
-
-## 4. 數據需求 (Data Requirements)
-- **State**:
-    - `searchQuery`: 搜尋關鍵字字串。
-- **Mock Data**: `historyItems` 陣列。
-    - 欄位：`id`, `date`, `topic`。
+## 4. 響應式佈局
+*   Mobile: 日期與標題改為垂直疊放。
+*   Desktop: 日期靠左對齊，標題居中，右側預留「查看回饋」按鈕。

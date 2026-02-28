@@ -1,39 +1,21 @@
-# 個人資料頁面 (Info Page IA)
+# 個人資料與成長中心規範 (Info & Profile Spec)
 
-`/info` 頁面提供用戶管理個人基本資訊與查看平台使用統計。
+`/info` 頁面聚焦於用戶身份與成就感。
 
-## 1. 頁面功能 (Functions)
-- **統計數據**: 顯示目前的累計練習次數。
-- **資訊展示**: 查看姓名、電子郵件與頭像。
-- **資料編輯**: 修改姓名與電子郵件。
-- **頭像管理**: 模擬更換頭像功能。
+## 1. 核心組件
 
-## 2. 頁面組件與布局 (IA Hierarchy)
-- **標題區 (Header)**:
-    - `HamburgerMenu`: 導航。
-    - **標題**: "個人資料" (text-2xl)。
+### 1.1 StatsBanner (統計標語)
+*   **Visual**: 橫向排列的數值卡片。
+*   **Metric**: "總練習次數"、"獲得專家肯定次數"、"最常應對的情緒類型"。
+*   **Animation**: 數字滾動動畫 (Count-up effect)。
 
-- **統計卡片 (Card)**:
-    - 展示 "使用次數" 與大字體數字 (text-3xl)。
+### 1.2 ProfileForm
+*   **Edit State**: 點擊編輯後，靜態文字淡出，輸入框淡入。
+*   **Avatar Management**: 圓形頭像，Hover 時顯示相機圖標 Overlay。
 
-- **基本資訊卡片 (Card)**:
-    - **標題**: "基本資訊"。
-    - **Avatar 展示區**: 大尺寸頭像與「更換頭像」按鈕。
-    - **資料表單區**:
-        - **閱讀模式 (Default)**: `Label` + 靜態文字展示。
-        - **編輯模式 (isEditing)**: `Label` + `Input` 輸入框。
-    - **動作按鈕區**:
-        - 閱讀模式下：「編輯資料」。
-        - 編輯模式下：「取消」、「儲存」。
+## 2. 交互規範
+*   **Feedback**: 儲存成功後，使用 `sonner` 彈出 Sage Green (成功) 的通知，帶有「資料已同步」的字樣。
+*   **Validation**: 實時驗證 Email 格式與姓名長度。
 
-## 3. 交互邏輯 (User Flow & Interactions)
-- **切換模式**: 點擊編輯進入 `isEditing=true`。
-- **儲存流程**: 呼叫 `handleSave` 更新用戶狀態 -> 顯示 Toast 成功通知 -> 退出編輯模式。
-- **取消流程**: 還原暫存狀態為原始用戶數據。
-
-## 4. 數據需求 (Data Requirements)
-- **State**:
-    - `user`: 核心用戶對象 (`name`, `email`, `avatar`)。
-    - `isEditing`: 布林值。
-    - `editName`, `editEmail`: 編輯中的暫存狀態。
-- **統計數據**: 硬編碼數字 (目前為 Mock)。
+## 3. 數據敏感性
+*   密碼等敏感操作需引導至「安全設定」獨立區塊 (預留)。

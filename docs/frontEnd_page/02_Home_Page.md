@@ -1,33 +1,28 @@
-# 首頁 (Home Page IA)
+# 首頁規範 (Home Page Spec)
 
-`/home` 頁面作為入口大廳，旨在向用戶介紹 SELf-corner 的設計初衷與核心價值。
+`/home` 作為願景大廳，重點在於資訊傳達與心智模型建立。
 
-## 1. 頁面功能 (Functions)
-- **品牌宣導**: 展示平台目標 (SEL 輔導練習)。
-- **核心理念**: 解釋為何需要此平台 (CASEL 五大能力)。
-- **導航導覽**: 提供全域選單入口。
-- **歡迎訊息**: 顯示當前登入用戶資訊。
+## 1. 資訊層級 (Information Hierarchy)
+1.  **Welcome Header**: 個人化歡迎語，降低距離感。
+2.  **Product Vision**: 核心 Slogan 與平台目的。
+3.  **Core Concepts (SEL/Satir)**: 以卡片形式展示心理學基礎。
+4.  **Quick Start**: 引導至對話空間。
 
-## 2. 頁面組件與布局 (IA Hierarchy)
-- **頂部標題與用戶欄 (Header)**:
-    - `HamburgerMenu`: 開啟側邊選單。
-    - `Avatar`: 顯示用戶頭像或名稱縮寫。
-    - `span`: "hi, {user.name}" (歡迎語)。
+## 2. 組件規範
 
-- **核心介紹區塊 (Main Section)**:
-    - **標題**: "關於 SELf-corner" (text-3xl, font-bold)
-    - **子標題**: "一個為教師設計的 SEL 對話練習平台" (text-muted-foreground)
-    - `Separator`: 視覺分隔線。
-    - **內容格子 (Cards/Divs)**:
-        - **🎯 平台初衷**: 說明對話模擬的重要性。
-        - **💡 我們相信**: 強調 AI 模擬與專家回饋的價值。
-        - **🌱 五大 SEL 核心能力**: CASEL 標準列表 (自我覺察、自我管理、社交意識、人際技巧、負責決策)。
-        - **🔧 如何運作**: 操作步驟簡述。
+### 2.1 InfoCard (核心理念卡片)
+*   **Style**: `border-none`, `shadow-sm`, `bg-card`。
+*   **Interaction**: Hover 時位移 `Y: -4px`，陰影變為 `shadow-md`。
+*   **Iconography**: 使用大地色系的 Icon (如 Sage Green 的植物圖標代表成長)。
 
-## 3. 交互邏輯 (User Flow & Interactions)
-- 此頁面以 **資訊呈現 (Read-only)** 為主。
-- **導航**: 用戶點選 `HamburgerMenu` 跳轉至其他核心功能 (如「對話空間」、「歷史紀錄」)。
+### 2.2 Navigation (HamburgerMenu)
+*   **Active State**: 當前所在頁面的 Link 應加粗並顯示 `primary` 色的小圓點。
 
-## 4. 數據需求 (Data Requirements)
-- **User Object**: 目前為 Mock Data (`{ name: "User", avatar: "" }`)，未來可與 Context/Redux 整合。
-- **靜態內容**: 平台的文案內容硬編碼在組件中。
+## 3. 響應式佈局 (Responsive Strategy)
+*   **Desktop**: Grid 3 Columns (展示五大能力時)。
+*   **Tablet**: Grid 2 Columns。
+*   **Mobile**: Stack 1 Column，文字對齊方式改為置中。
+
+## 4. UX Writing 準則
+*   避免過於生硬的術語。
+*   例：將 "Start Training" 改為 "進入練習空間"。

@@ -1,21 +1,14 @@
-# 404 頁面 (Not Found Page IA)
+# 404 錯誤引導規範 (NotFound Page Spec)
 
-`NotFound` 頁面在用戶訪問不存在的路由時顯示。
+當用戶迷失時，提供溫暖的回航指引。
 
-## 1. 頁面功能 (Functions)
-- **錯誤提示**: 告知用戶頁面不存在。
-- **導航導引**: 提供返回首頁的連結。
+## 1. 視覺主題
+*   **Background**: 教室空景圖 (淡化處裡)。
+*   **Illustration**: 一個迷路的 2D 學生小插圖。
 
-## 2. 頁面組件與布局 (IA Hierarchy)
-- **容器 (Container)**: `div` (flex, min-h-screen, items-center, justify-center, bg-muted)。
-- **內容區 (Content)**:
-    - **標題**: "404" (text-4xl, font-bold)。
-    - **描述**: "Oops! Page not found"。
-    - **行動連結**: "Return to Home" (underline, hover effect)。
+## 2. 交互邏輯
+*   **Auto-Redirect**: 倒數 5 秒自動跳轉至首頁 (視覺化進度條展示倒數)。
+*   **CTA**: 大而明顯的 "帶我回首頁" 按鈕。
 
-## 3. 交互邏輯 (User Flow & Interactions)
-- **日誌記錄**: 當進入此頁面時，會在控制台輸出錯誤路徑 (用於除錯)。
-- **跳轉**: 點擊連結返回根路徑 (`/`)，進而觸發重定向至 `/login` 或 `/home`。
-
-## 4. 數據需求 (Data Requirements)
-- **Hooks**: `useLocation` 用於獲取當前嘗試訪問的 path。
+## 3. 心理建設
+*   文案風格："哎呀，看來這個教室暫時沒有人呢。我們一起回大廳看看吧！"

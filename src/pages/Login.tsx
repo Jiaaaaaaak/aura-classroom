@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -11,12 +10,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-import { Eye, EyeOff, BookHeart } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [account, setAccount] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // Registration dialog state
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -27,9 +27,6 @@ export default function Login() {
   const [regPassword, setRegPassword] = useState("");
   const [regConfirmPassword, setRegConfirmPassword] = useState("");
   const [regErrors, setRegErrors] = useState<Record<string, string>>({});
-
-  // Password visibility states
-  const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegPassword, setShowRegPassword] = useState(false);
   const [showRegConfirmPassword, setShowRegConfirmPassword] = useState(false);
 
@@ -37,44 +34,29 @@ export default function Login() {
   const [forgotOpen, setForgotOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
 
+  const isFilled = email.trim() !== "" && password.trim() !== "";
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement actual auth
-    navigate("/home");
-  };
-
-  const handleGoogleLogin = () => {
-    // TODO: Implement Google auth
     navigate("/home");
   };
 
   const validatePassword = (pwd: string): boolean => {
-    const hasLetter = /[a-zA-Z]/.test(pwd);
-    const hasMinLength = pwd.length >= 10;
-    return hasLetter && hasMinLength;
+    return /[a-zA-Z]/.test(pwd) && pwd.length >= 10;
   };
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     const errors: Record<string, string> = {};
-
     if (!regUsername.trim()) errors.username = "請輸入用戶名";
     if (!regLastName.trim()) errors.lastName = "請輸入姓";
     if (!regFirstName.trim()) errors.firstName = "請輸入名";
     if (!regEmail.trim()) errors.email = "請輸入電子信箱";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regEmail)) errors.email = "信箱格式不正確";
-    
-    if (!validatePassword(regPassword)) {
-      errors.password = "密碼須至少10個字元且包含英文字母";
-    }
-    if (regPassword !== regConfirmPassword) {
-      errors.confirmPassword = "密碼不一致";
-    }
-
+    if (!validatePassword(regPassword)) errors.password = "密碼須至少10個字元且包含英文字母";
+    if (regPassword !== regConfirmPassword) errors.confirmPassword = "密碼不一致";
     setRegErrors(errors);
-
     if (Object.keys(errors).length === 0) {
-      // TODO: Implement actual registration
       toast({ title: "註冊成功", description: "請使用新帳號登入" });
       setRegisterOpen(false);
       resetRegisterForm();
@@ -97,134 +79,128 @@ export default function Login() {
       toast({ title: "錯誤", description: "請輸入有效的電子信箱", variant: "destructive" });
       return;
     }
-    // TODO: Implement actual password reset
     toast({ title: "已發送", description: "密碼重設信件已發送至您的信箱" });
     setForgotOpen(false);
     setForgotEmail("");
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-      <div className="mb-8 text-center max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <div className="flex justify-center mb-4 text-primary">
-          <BookHeart className="h-12 w-12" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-[440px] bg-white border border-[#E5E2D9] p-10 flex flex-col gap-6">
+        {/* Brand area */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-8 h-8 bg-primary rounded-sm" />
+          <h1 className="font-heading text-2xl font-bold text-foreground">
+            SELf-corner
+          </h1>
+          <p className="text-sm text-muted-foreground italic text-center">
+            每個老師，都需要一個能安心犯錯的角落。
+          </p>
         </div>
-        <h1 className="text-4xl font-bold text-foreground mb-2">SELf-corner</h1>
-        <p className="text-lg text-muted-foreground">每個老師，都需要一個能安心犯錯的角落。</p>
-      </div>
 
-      <Card className="w-full max-w-md shadow-lg border-muted/50 bg-card/80 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-500 delay-150 fill-mode-both">
-        <CardHeader className="text-center pb-4">
-          <CardTitle className="text-2xl text-foreground">歡迎回來</CardTitle>
-          <CardDescription>登入您的帳號以繼續練習</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-5">
-            <Input
-              type="text"
-              placeholder="帳號 / Email"
-              value={account}
-              onChange={(e) => setAccount(e.target.value)}
-              className="bg-background"
+        {/* Form */}
+        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+          {/* Email input */}
+          <div className="flex items-center gap-2.5 h-12 px-4 border border-[#E5E2D9] bg-white">
+            <Mail className="w-[18px] h-[18px] text-[#A09C94] shrink-0" />
+            <input
+              type="email"
+              placeholder="Email 電子郵件"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 text-sm bg-transparent outline-none placeholder:text-[#A09C94] text-foreground"
             />
-            <div className="relative">
-              <Input
-                type={showLoginPassword ? "text" : "password"}
-                placeholder="密碼"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="bg-background"
-              />
-              <button
-                type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                onClick={() => setShowLoginPassword(!showLoginPassword)}
-              >
-                {showLoginPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-            <div className="flex items-center justify-between pt-2">
-              <Button type="submit" className="w-1/2">
-                登入
-              </Button>
-              <div className="flex gap-2 text-sm text-muted-foreground">
-                <button
-                  type="button"
-                  className="hover:text-primary transition-colors"
-                  onClick={() => setRegisterOpen(true)}
-                >
-                  註冊
-                </button>
-                <span>|</span>
-                <button
-                  type="button"
-                  className="hover:text-primary transition-colors"
-                  onClick={() => setForgotOpen(true)}
-                >
-                  忘記密碼
-                </button>
-              </div>
-            </div>
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-border" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">或使用</span>
-              </div>
-            </div>
-            <Button
+          </div>
+
+          {/* Password input */}
+          <div className="flex items-center gap-2.5 h-12 px-4 border border-[#E5E2D9] bg-white">
+            <Lock className="w-[18px] h-[18px] text-[#A09C94] shrink-0" />
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="密碼 Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="flex-1 text-sm bg-transparent outline-none placeholder:text-[#A09C94] text-foreground"
+            />
+            <button
               type="button"
-              variant="outline"
-              className="w-full bg-background"
-              onClick={handleGoogleLogin}
+              onClick={() => setShowPassword(!showPassword)}
+              className="text-[#A09C94] hover:text-foreground transition-colors shrink-0"
             >
-              Google 帳號登入
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              {showPassword ? <Eye className="w-[18px] h-[18px]" /> : <EyeOff className="w-[18px] h-[18px]" />}
+            </button>
+          </div>
+
+          {/* Forgot password */}
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setForgotOpen(true)}
+              className="text-[13px] text-primary hover:underline"
+            >
+              忘記密碼？
+            </button>
+          </div>
+
+          {/* Login button */}
+          <button
+            type="submit"
+            className={`w-full h-12 font-heading text-[13px] font-semibold tracking-widest transition-colors ${
+              isFilled
+                ? "bg-primary text-white hover:opacity-90"
+                : "bg-[#D4C4B8] text-[#A09C94] cursor-not-allowed"
+            }`}
+            disabled={!isFilled}
+          >
+            登入 LOGIN
+          </button>
+
+          {/* OR divider */}
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-px bg-[#E5E2D9]" />
+            <span className="font-heading text-xs font-semibold tracking-widest text-[#A09C94]">
+              OR
+            </span>
+            <div className="flex-1 h-px bg-[#E5E2D9]" />
+          </div>
+
+          {/* Signup link */}
+          <div className="flex items-center justify-center gap-1 text-[13px]">
+            <span className="text-muted-foreground">還沒有帳號？</span>
+            <button
+              type="button"
+              onClick={() => setRegisterOpen(true)}
+              className="text-primary font-semibold hover:underline"
+            >
+              立即註冊
+            </button>
+          </div>
+        </form>
+      </div>
 
       {/* Registration Dialog */}
       <Dialog open={registerOpen} onOpenChange={setRegisterOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>建立新帳號</DialogTitle>
+            <DialogTitle className="font-heading">建立新帳號</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleRegister} className="space-y-3">
             <div>
-              <Input
-                placeholder="用戶名 (ID)"
-                value={regUsername}
-                onChange={(e) => setRegUsername(e.target.value)}
-              />
+              <Input placeholder="用戶名 (ID)" value={regUsername} onChange={(e) => setRegUsername(e.target.value)} />
               {regErrors.username && <p className="text-sm text-destructive mt-1">{regErrors.username}</p>}
             </div>
             <div className="flex gap-2">
               <div className="flex-1">
-                <Input
-                  placeholder="姓"
-                  value={regLastName}
-                  onChange={(e) => setRegLastName(e.target.value)}
-                />
+                <Input placeholder="姓" value={regLastName} onChange={(e) => setRegLastName(e.target.value)} />
                 {regErrors.lastName && <p className="text-sm text-destructive mt-1">{regErrors.lastName}</p>}
               </div>
               <div className="flex-1">
-                <Input
-                  placeholder="名"
-                  value={regFirstName}
-                  onChange={(e) => setRegFirstName(e.target.value)}
-                />
+                <Input placeholder="名" value={regFirstName} onChange={(e) => setRegFirstName(e.target.value)} />
                 {regErrors.firstName && <p className="text-sm text-destructive mt-1">{regErrors.firstName}</p>}
               </div>
             </div>
             <div>
-              <Input
-                type="email"
-                placeholder="電子信箱"
-                value={regEmail}
-                onChange={(e) => setRegEmail(e.target.value)}
-              />
+              <Input type="email" placeholder="電子信箱" value={regEmail} onChange={(e) => setRegEmail(e.target.value)} />
               {regErrors.email && <p className="text-sm text-destructive mt-1">{regErrors.email}</p>}
             </div>
             <div>
@@ -274,7 +250,7 @@ export default function Login() {
       <Dialog open={forgotOpen} onOpenChange={setForgotOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>忘記密碼</DialogTitle>
+            <DialogTitle className="font-heading">忘記密碼</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleForgotPassword} className="space-y-3">
             <p className="text-sm text-muted-foreground">

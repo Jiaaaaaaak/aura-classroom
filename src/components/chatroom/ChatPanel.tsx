@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, MicOff, Send, Pause, Play, SquareSquare, Disc2 } from "lucide-react";
+import { Mic, Send, Pause, Play, SquareSquare, Disc2 } from "lucide-react";
 
 interface ChatMessage {
   role: "teacher" | "student";
@@ -32,11 +31,7 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
     if (!inputText.trim()) return;
     setMessages((prev) => [...prev, { role: "teacher", content: inputText.trim() }]);
     setInputText("");
-    
-    // Simulate AI thinking state
     if (onEmotionChange) onEmotionChange("thinking");
-
-    // Mock student reply after delay
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
@@ -55,30 +50,29 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
 
   const toggleRecording = () => {
     setIsRecording(!isRecording);
-    // In a real app, this would trigger VAD or MediaRecorder
-    if (!isRecording && onEmotionChange) {
-      onEmotionChange("neutral"); // Reset student emotion while listening
-    }
+    if (!isRecording && onEmotionChange) onEmotionChange("neutral");
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 h-1/3 min-h-[250px] bg-card/90 backdrop-blur-xl border-t border-border rounded-t-2xl flex flex-col p-4 gap-3 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+    <div className="absolute bottom-0 left-0 right-0 flex flex-col bg-white border-t border-[#E5E2D9]">
       {/* Chat messages */}
-      <ScrollArea className="flex-1 px-2">
-        <div className="space-y-4 pb-2">
+      <ScrollArea className="h-[200px] px-6 py-4">
+        <div className="space-y-3 pb-2">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === "teacher" ? "justify-end" : "justify-start"}`}>
+              {msg.role === "student" && (
+                <div className="w-7 h-7 rounded-full bg-[#F0EDE6] flex items-center justify-center shrink-0 mr-2 self-end">
+                  <span className="text-xs text-muted-foreground">小</span>
+                </div>
+              )}
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
+                className={`max-w-[400px] px-3.5 py-2.5 text-sm ${
                   msg.role === "teacher"
-                    ? "bg-primary/10 border border-primary/20 text-foreground rounded-br-sm"
-                    : "bg-muted border border-border text-foreground rounded-bl-sm"
+                    ? "bg-primary text-white rounded-2xl rounded-br-sm"
+                    : "bg-[#81B29A20] text-foreground rounded-2xl rounded-bl-sm"
                 }`}
               >
-                <div className="text-[10px] text-muted-foreground font-bold mb-1 tracking-wider uppercase">
-                  {msg.role === "teacher" ? "👩‍🏫 老師" : "🧑‍🎓 學生"}
-                </div>
-                <p className="leading-relaxed text-base">{msg.content}</p>
+                <p className="leading-relaxed">{msg.content}</p>
               </div>
             </div>
           ))}
@@ -86,65 +80,58 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
         </div>
       </ScrollArea>
 
-      {/* Input row */}
-      <div className="flex items-center gap-3 pt-2">
-        
-        {/* Voice Input (Primary action) */}
-        <Button
-          variant={isRecording ? "destructive" : "default"}
-          size="icon"
-          className={`h-12 w-12 rounded-full shrink-0 shadow-md transition-all ${isRecording ? 'animate-pulse' : ''}`}
+      {/* Input bar */}
+      <div className="flex items-center gap-3 px-6 py-3 border-t border-[#E5E2D9]">
+        <button
           onClick={toggleRecording}
           disabled={isPaused}
+          className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all ${
+            isRecording
+              ? "bg-destructive text-white animate-pulse"
+              : "bg-primary text-white hover:opacity-90"
+          } disabled:opacity-50`}
           title={isRecording ? "停止錄音" : "點擊說話"}
         >
-          {isRecording ? <Disc2 className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
-        </Button>
+          {isRecording ? <Disc2 className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+        </button>
 
-        <Input
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={isRecording ? "聆聽中..." : "輸入文字回應或點擊麥克風說話..."}
-          className="flex-1 h-12 rounded-full px-5 bg-background border-border/60 focus-visible:ring-primary/50 text-base"
-          disabled={isPaused || isRecording}
-        />
+        <div className="flex-1 flex items-center h-10 px-4 border border-[#E5E2D9] bg-[#FAF9F6] rounded-sm">
+          <input
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={isRecording ? "聆聽中..." : "輸入文字回應..."}
+            className="flex-1 text-sm bg-transparent outline-none placeholder:text-[#A09C94]"
+            disabled={isPaused || isRecording}
+          />
+        </div>
 
-        {/* Send */}
-        <Button
-          variant="secondary"
-          size="icon"
-          className="h-12 w-12 rounded-full shrink-0"
+        <button
           onClick={handleSend}
           disabled={!inputText.trim() || isPaused || isRecording}
+          className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-secondary text-white hover:opacity-90 transition-opacity disabled:opacity-30"
           title="傳送文字"
         >
-          <Send className="h-5 w-5" />
-        </Button>
+          <Send className="w-4 h-4" />
+        </button>
 
-        <div className="w-px h-8 bg-border mx-1"></div>
+        <div className="w-px h-6 bg-[#E5E2D9] mx-1" />
 
-        {/* Pause/Resume */}
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-12 w-12 rounded-full shrink-0 border-border/60 hover:bg-muted"
+        <button
           onClick={onTogglePause}
+          className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-[#E5E2D9] hover:bg-muted/30 transition-colors"
           title={isPaused ? "繼續" : "暫停"}
         >
-          {isPaused ? <Play className="h-5 w-5 text-primary" /> : <Pause className="h-5 w-5 text-muted-foreground" />}
-        </Button>
+          {isPaused ? <Play className="w-4 h-4 text-primary" /> : <Pause className="w-4 h-4 text-muted-foreground" />}
+        </button>
 
-        {/* End */}
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-12 w-12 rounded-full shrink-0 border-border/60 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30"
+        <button
           onClick={onEnd}
+          className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-[#E5E2D9] hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors"
           title="結束對話並查看回饋"
         >
-          <SquareSquare className="h-5 w-5" />
-        </Button>
+          <SquareSquare className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );
