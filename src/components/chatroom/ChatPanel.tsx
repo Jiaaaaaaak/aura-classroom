@@ -54,7 +54,7 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
   };
 
   return (
-    <div className="flex flex-col bg-white/90 backdrop-blur-sm border-t border-[#E5E2D9] shrink-0">
+    <div className="flex flex-col bg-black/10 backdrop-blur-sm border-t border-white/20 shrink-0">
       {/* Chat messages */}
       <ScrollArea className="h-[200px] px-6 py-4">
         <div className="space-y-3 pb-2">
@@ -81,8 +81,8 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
       </ScrollArea>
 
       {/* Input bar */}
-      <div className="flex items-center gap-3 px-6 py-3 border-t border-[#E5E2D9]">
-        <div className="flex-1 flex items-center h-10 px-4 border border-[#E5E2D9] bg-[#FAF9F6] rounded-sm">
+      <div className="flex items-center gap-3 px-6 py-3 border-t border-white/20">
+        <div className="flex-1 flex items-center h-10 px-4 border border-white/30 bg-white/60 backdrop-blur-sm rounded-full">
           <input
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
