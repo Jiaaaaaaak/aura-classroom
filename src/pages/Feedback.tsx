@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -183,7 +183,7 @@ export default function Feedback() {
                       fillOpacity={1} 
                       fill="url(#colorValue)" 
                       dot={{ r: 4, fill: '#E07A5F', strokeWidth: 2, stroke: '#fff' }}
-                      activeDot={{ r: 6, shadow: '0 0 10px rgba(224,122,95,0.5)' }}
+                      activeDot={{ r: 6 }}
                     />
                   </AreaChart>
                 </ResponsiveContainer>
