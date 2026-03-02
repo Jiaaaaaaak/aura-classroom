@@ -57,11 +57,11 @@ const defaultTranscript = [
   { role: "teacher", content: "這是一個很好的策略！暫時離開現場能讓大腦冷靜下來。至於小明，你覺得如果用『我訊息』來表達會不會比較好？例如：『我現在心情不太好，需要安靜一下，等下再聊』，這樣既表達了你的邊界，又不會傷害到關係。你覺得他聽完會有什麼反應？", highlight: true, note: "引入了『我訊息』，可以再更深入探討學生的『渴望』(被尊重)。" },
   { role: "student", content: "他應該會喔一聲就走開吧，總比我叫他閉嘴好。那我明天去跟他道個歉好了，畢竟剛才我真的太兇了。" },
   { role: "teacher", content: "小傑，我很欣賞你願意承擔責任並修補關係的勇氣。這不容易，但這會讓你的人際關係變得更穩固。今晚回去先早點休息，把睡眠補回來，好嗎？" },
-  { role: "student", content: "好，謝謝老師。跟你聊完之後，我覺得心裡沒那麼悶了，明天見。" },
 ];
 
 export default function Feedback() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [userInput, setUserInput] = useState("");
 
   useEffect(() => {
@@ -82,6 +82,12 @@ export default function Feedback() {
     }
   };
 
+  const handleRetry = () => {
+    const scenarioId = location.state?.currentScenarioId;
+    console.log("Retrying scenario ID:", scenarioId);
+    navigate("/chatroom", { state: { retryScenarioId: scenarioId } });
+  };
+
   return (
     <AppLayout>
       <div className="p-8 md:p-12 max-w-7xl mx-auto flex flex-col gap-10 min-h-full animate-in fade-in duration-500">
@@ -97,7 +103,7 @@ export default function Feedback() {
           </div>
           <div className="flex items-center gap-3">
             <button
-              onClick={() => navigate("/chatroom")}
+              onClick={handleRetry}
               className="h-11 px-6 border-2 border-[#E5E2D9] rounded-xl font-heading text-sm font-bold text-[#3D3831] hover:bg-white hover:border-[#3D3831] transition-all flex items-center gap-2"
             >
               <RefreshCw className="w-4 h-4" />
