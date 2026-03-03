@@ -63,8 +63,8 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
   return (
     <div className="absolute bottom-0 left-0 right-0 flex flex-col z-30">
       {/* Chat messages - transparent, minimal, only recent */}
-      <div className="px-8 py-4">
-        <div className="max-w-4xl mx-auto flex flex-col gap-4">
+      <div className="px-8 py-3">
+        <div className="max-w-2xl mx-auto flex flex-col gap-3">
           {visibleMessages.map((msg, i) => (
             <div 
               key={messages.length - visibleMessages.length + i} 
@@ -76,10 +76,10 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
                 </div>
               )}
               <div
-                className={`max-w-[65%] px-5 py-3 text-[15px] font-medium leading-relaxed shadow-lg ${
+                className={`max-w-[65%] px-4 py-2.5 text-[14px] font-medium leading-relaxed shadow-md ${
                   msg.role === "teacher"
-                    ? "bg-primary/90 backdrop-blur-sm text-white rounded-[18px] rounded-tr-sm"
-                    : "bg-white/85 backdrop-blur-sm text-[#3D3831] rounded-[18px] rounded-tl-sm border border-white/50"
+                    ? "bg-primary/70 backdrop-blur-sm text-white rounded-[16px] rounded-tr-sm"
+                    : "bg-white/60 backdrop-blur-sm text-[#3D3831] rounded-[16px] rounded-tl-sm border border-white/30"
                 }`}
               >
                 <p>{msg.content}</p>
@@ -105,10 +105,10 @@ export default function ChatPanel({ isPaused, onTogglePause, onEnd, onEmotionCha
       </div>
 
       {/* Input bar */}
-      <div className="px-8 py-5">
-        <div className="max-w-4xl mx-auto flex items-center gap-3">
+      <div className="px-8 py-4">
+        <div className="max-w-2xl mx-auto flex items-center gap-3">
           {/* Text input - takes most space */}
-          <div className="flex-1 flex items-center h-12 px-5 bg-white/80 backdrop-blur-md border border-white/50 rounded-full shadow-lg focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/30 transition-all">
+          <div className="flex-1 flex items-center h-11 px-4 bg-white/50 backdrop-blur-md border border-white/30 rounded-full shadow-md focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/30 transition-all">
             <input
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}

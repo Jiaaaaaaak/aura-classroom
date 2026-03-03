@@ -14,7 +14,6 @@ import {
 const navItems = [
   { label: "首頁 Home", icon: House, path: "/home" },
   { label: "對話練習", icon: MessageCircle, path: "/chatroom" },
-  { label: "專家回饋", icon: Radar, path: "/feedback" },
   { label: "歷史紀錄", icon: Clock3, path: "/history" },
   { label: "個人帳號", icon: User, path: "/info" },
 ];
@@ -22,7 +21,6 @@ const navItems = [
 // Session nav items shown during active practice
 const sessionNavItems = [
   { label: "對話", icon: MessageCircle, id: "chat" },
-  { label: "即時分析", icon: Radar, id: "analysis" },
 ];
 
 interface SidebarProps {
