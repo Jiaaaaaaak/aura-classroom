@@ -79,16 +79,9 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
         </div>
       </div>
 
-      <div className="flex flex-col gap-1">
-        <span className="font-heading text-lg font-bold text-foreground">
-          {isRolling ? "骰子擲出中..." : "隨機挑戰"}
-        </span>
-        {!isRolling && (
-          <p className="text-xs text-muted-foreground font-medium leading-relaxed">
-            點擊骰子隨機挑選一個<br />未知情境進行練習
-          </p>
-        )}
-      </div>
+      <span className="text-xs font-medium text-muted-foreground/70">
+        {isRolling ? "擲骰中..." : "隨機挑戰"}
+      </span>
 
       <style>{`
         @keyframes diceRoll {
