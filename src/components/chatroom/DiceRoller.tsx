@@ -64,17 +64,16 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
           {faceTransforms.map((transform, i) => (
             <div
               key={i}
-              className="absolute inset-0 flex items-center justify-center rounded-2xl border-2 border-border/50 backdrop-blur-sm"
+              className="absolute inset-0 flex items-center justify-center rounded-xl border border-border/30"
               style={{
-                width: 120,
-                height: 120,
+                width: 72,
+                height: 72,
                 transform,
                 backfaceVisibility: "hidden",
-                background: "hsl(var(--card) / 0.95)",
-                boxShadow: "inset 0 0 20px hsl(var(--primary) / 0.05)",
+                background: "hsl(var(--card) / 0.9)",
               }}
             >
-              <span className="text-4xl select-none">{FACE_EMOJIS[i]}</span>
+              <span className="text-2xl select-none">{FACE_EMOJIS[i]}</span>
             </div>
           ))}
         </div>
