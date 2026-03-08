@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const FACE_EMOJIS = ["📝", "👥", "😤", "🤝", "🌱", "💭"];
 
@@ -8,17 +8,34 @@ interface DiceRollerProps {
   isRolling: boolean;
 }
 
+// Haptic feedback helper
+function vibrate(pattern: number | number[]) {
+  if (navigator.vibrate) {
+    navigator.vibrate(pattern);
+  }
+}
+
 export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceRollerProps) {
   const [finalFace, setFinalFace] = useState(0);
+  const containerRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = () => {
     if (isRolling) return;
     const face = Math.floor(Math.random() * 6);
     setFinalFace(face);
     onClick();
+
+    // Initial throw vibration
+    vibrate(30);
+
+    // Bounce vibrations at each landing moment
+    setTimeout(() => vibrate(15), 1400);  // first bounce
+    setTimeout(() => vibrate(10), 1700);  // second bounce
+    setTimeout(() => vibrate([20, 30, 40]), 2000); // final land
+
     setTimeout(() => {
       onRollComplete();
-    }, 1800);
+    }, 2400);
   };
 
   // Each face rotation
@@ -43,6 +60,7 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
 
   return (
     <button
+      ref={containerRef}
       onClick={handleClick}
       className="group flex flex-col items-center justify-center gap-1 rounded-xl opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer"
     >
@@ -54,10 +72,9 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
             transformStyle: "preserve-3d",
             transition: isRolling ? "none" : undefined,
             animation: isRolling
-              ? `diceRoll 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards`
+              ? `diceThrow 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards`
               : undefined,
             transform: isRolling ? undefined : "rotateX(-15deg) rotateY(25deg)",
-            // CSS custom property for final landing
             ["--land-rotation" as any]: landRotations[finalFace],
           }}
         >
@@ -71,6 +88,7 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
                 transform,
                 backfaceVisibility: "hidden",
                 background: "hsl(var(--card) / 0.9)",
+                boxShadow: "inset 0 1px 2px hsl(var(--foreground) / 0.06)",
               }}
             >
               <span className="text-2xl select-none">{FACE_EMOJIS[i]}</span>
@@ -84,24 +102,51 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
       </span>
 
       <style>{`
-        @keyframes diceRoll {
+        @keyframes diceThrow {
+          /* Launch upward with spin */
           0% {
-            transform: rotateX(-15deg) rotateY(25deg);
+            transform: rotateX(-15deg) rotateY(25deg) translateY(0px) scale(1);
           }
-          15% {
-            transform: rotateX(200deg) rotateY(-150deg) rotateZ(90deg) translateY(-30px);
+          8% {
+            transform: rotateX(60deg) rotateY(-40deg) rotateZ(20deg) translateY(10px) scale(0.95);
+          }
+          /* Flying up — fast chaotic spin */
+          20% {
+            transform: rotateX(360deg) rotateY(-200deg) rotateZ(80deg) translateY(-80px) scale(1.05);
           }
           35% {
-            transform: rotateX(520deg) rotateY(280deg) rotateZ(-45deg) translateY(-50px);
+            transform: rotateX(700deg) rotateY(350deg) rotateZ(-120deg) translateY(-110px) scale(1.1);
           }
-          55% {
-            transform: rotateX(800deg) rotateY(-400deg) rotateZ(120deg) translateY(-20px);
+          /* Peak */
+          45% {
+            transform: rotateX(1000deg) rotateY(-500deg) rotateZ(160deg) translateY(-120px) scale(1.08);
           }
-          75% {
-            transform: rotateX(1100deg) rotateY(600deg) rotateZ(-30deg) translateY(0px);
+          /* Falling down */
+          58% {
+            transform: rotateX(1300deg) rotateY(650deg) rotateZ(-60deg) translateY(-40px) scale(1);
+          }
+          /* First bounce impact */
+          65% {
+            transform: rotateX(1500deg) rotateY(-720deg) rotateZ(30deg) translateY(8px) scale(0.92);
+          }
+          /* Small bounce up */
+          74% {
+            transform: rotateX(1600deg) rotateY(780deg) rotateZ(-15deg) translateY(-20px) scale(1);
+          }
+          /* Second bounce impact */
+          80% {
+            transform: rotateX(1650deg) rotateY(-800deg) rotateZ(8deg) translateY(4px) scale(0.96);
+          }
+          /* Tiny bounce */
+          87% {
+            transform: rotateX(1680deg) rotateY(820deg) rotateZ(-4deg) translateY(-6px) scale(1);
+          }
+          /* Settle */
+          93% {
+            transform: var(--land-rotation) translateY(2px) scale(0.98);
           }
           100% {
-            transform: var(--land-rotation);
+            transform: var(--land-rotation) translateY(0px) scale(1);
           }
         }
       `}</style>
