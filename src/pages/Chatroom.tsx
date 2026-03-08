@@ -251,9 +251,19 @@ export default function Chatroom() {
                <div className="max-w-5xl mx-auto flex flex-col gap-10">
                  <div className="flex flex-col gap-6">
                     <div className="flex items-center justify-between">
-                      <div className="flex flex-col gap-1">
-                        <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Scenario Pool</span>
-                        <h3 className="font-heading text-2xl font-bold text-[#3D3831]">選擇一個練習情境</h3>
+                      <div className="flex items-center gap-4">
+                        <div className="flex flex-col gap-1">
+                          <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Scenario Pool</span>
+                          <h3 className="font-heading text-2xl font-bold text-[#3D3831]">選擇一個練習情境</h3>
+                        </div>
+                        <DiceRoller
+                          isRolling={isDiceRolling}
+                          onClick={() => setIsDiceRolling(true)}
+                          onRollComplete={() => {
+                            setIsDiceRolling(false);
+                            handleStart();
+                          }}
+                        />
                       </div>
                       <button 
                         onClick={handleRefresh}
@@ -287,16 +297,6 @@ export default function Chatroom() {
                     ))}
                  </div>
 
-                 <div className="flex justify-end pt-2 pr-2">
-                    <DiceRoller
-                      isRolling={isDiceRolling}
-                      onClick={() => setIsDiceRolling(true)}
-                      onRollComplete={() => {
-                        setIsDiceRolling(false);
-                        handleStart();
-                      }}
-                    />
-                 </div>
                </div>
             </div>
           )}
