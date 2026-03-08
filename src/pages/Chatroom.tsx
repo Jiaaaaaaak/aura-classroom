@@ -20,6 +20,7 @@ import ScenarioDetail from "@/components/chatroom/ScenarioDetail";
 import RandomConfirm from "@/components/chatroom/RandomConfirm";
 import ChatPanel from "@/components/chatroom/ChatPanel";
 import DiceRoller from "@/components/chatroom/DiceRoller";
+import StudentProfileSelect, { type StudentProfile } from "@/components/chatroom/StudentProfileSelect";
 
 const allScenarios = [
   { id: 1, title: "考場失利後的自責", tag: "自我覺察", emoji: "📝", description: "學生在一次重要考試中表現不佳，感到極度自責和沮喪。他開始質疑自己的能力，甚至不想再上學。" },
