@@ -337,6 +337,14 @@ export default function Chatroom() {
             />
           )}
 
+          {/* 2.5 STUDENT PROFILE SELECTION */}
+          {!isStarted && pendingScenario && (
+            <StudentProfileSelect
+              onConfirm={handleProfileConfirm}
+              onBack={handleProfileBack}
+            />
+          )}
+
           {/* 3. ACTIVE SESSION VIEW - just ChatPanel over background */}
           {isStarted && (
             <ChatPanel
