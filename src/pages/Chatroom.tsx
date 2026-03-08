@@ -251,19 +251,9 @@ export default function Chatroom() {
                <div className="max-w-5xl mx-auto flex flex-col gap-10">
                  <div className="flex flex-col gap-6">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="flex flex-col gap-1">
-                          <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Scenario Pool</span>
-                          <h3 className="font-heading text-2xl font-bold text-[#3D3831]">選擇一個練習情境</h3>
-                        </div>
-                        <DiceRoller
-                          isRolling={isDiceRolling}
-                          onClick={() => setIsDiceRolling(true)}
-                          onRollComplete={() => {
-                            setIsDiceRolling(false);
-                            handleStart();
-                          }}
-                        />
+                      <div className="flex flex-col gap-1">
+                        <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Scenario Pool</span>
+                        <h3 className="font-heading text-2xl font-bold text-[#3D3831]">選擇一個練習情境</h3>
                       </div>
                       <button 
                         onClick={handleRefresh}
@@ -274,20 +264,30 @@ export default function Chatroom() {
                       </button>
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
-                      {TAGS.map(tag => (
-                        <button
-                          key={tag}
-                          onClick={() => setActiveTag(tag)}
-                          className={`px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide transition-all ${
-                            activeTag === tag 
-                            ? "bg-[#3D3831] text-white shadow-md" 
-                            : "bg-white border border-[#E5E2D9] text-[#706C61] hover:border-[#3D3831]"
-                          }`}
-                        >
-                          {tag}
-                        </button>
-                      ))}
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex flex-wrap gap-2">
+                        {TAGS.map(tag => (
+                          <button
+                            key={tag}
+                            onClick={() => setActiveTag(tag)}
+                            className={`px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide transition-all ${
+                              activeTag === tag 
+                              ? "bg-[#3D3831] text-white shadow-md" 
+                              : "bg-white border border-[#E5E2D9] text-[#706C61] hover:border-[#3D3831]"
+                            }`}
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                      <DiceRoller
+                        isRolling={isDiceRolling}
+                        onClick={() => setIsDiceRolling(true)}
+                        onRollComplete={() => {
+                          setIsDiceRolling(false);
+                          handleStart();
+                        }}
+                      />
                     </div>
                  </div>
 
