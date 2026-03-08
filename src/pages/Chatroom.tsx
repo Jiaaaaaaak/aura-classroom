@@ -297,16 +297,6 @@ export default function Chatroom() {
                     ))}
                  </div>
 
-                 <div className="flex justify-end pt-2 pr-2">
-                    <DiceRoller
-                      isRolling={isDiceRolling}
-                      onClick={() => setIsDiceRolling(true)}
-                      onRollComplete={() => {
-                        setIsDiceRolling(false);
-                        handleStart();
-                      }}
-                    />
-                 </div>
                </div>
             </div>
           )}
