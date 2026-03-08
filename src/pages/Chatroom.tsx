@@ -285,6 +285,9 @@ export default function Chatroom() {
                     {displayedScenarios.map((scenario) => (
                       <ScenarioCard key={scenario.id} scenario={scenario} onClick={handleCardClick} />
                     ))}
+                 </div>
+
+                 <div className="flex justify-center pt-4">
                     <DiceRoller
                       isRolling={isDiceRolling}
                       onClick={() => setIsDiceRolling(true)}
