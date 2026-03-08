@@ -259,7 +259,7 @@ export default function Chatroom() {
           )}
 
           {/* 1. SCENARIO SELECTION VIEW */}
-          {!isStarted && !selectedScenarioId && !showRandomConfirm && (
+          {!isStarted && !pendingScenario && !selectedScenarioId && !showRandomConfirm && !rolledScenario && (
             <div className="h-full overflow-y-auto px-6 py-10 md:px-12 animate-in fade-in duration-500 bg-[#FAF9F6]">
                <div className="max-w-5xl mx-auto flex flex-col gap-10">
                  <div className="flex flex-col gap-6">
