@@ -23,12 +23,12 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
 
   // Each face rotation
   const faceTransforms = [
-    "rotateY(0deg) translateZ(60px)",      // front
-    "rotateY(180deg) translateZ(60px)",     // back
-    "rotateY(90deg) translateZ(60px)",      // right
-    "rotateY(-90deg) translateZ(60px)",     // left
-    "rotateX(90deg) translateZ(60px)",      // top
-    "rotateX(-90deg) translateZ(60px)",     // bottom
+    "rotateY(0deg) translateZ(36px)",
+    "rotateY(180deg) translateZ(36px)",
+    "rotateY(90deg) translateZ(36px)",
+    "rotateY(-90deg) translateZ(36px)",
+    "rotateX(90deg) translateZ(36px)",
+    "rotateX(-90deg) translateZ(36px)",
   ];
 
   // Target rotation to land on each face
