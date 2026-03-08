@@ -23,12 +23,12 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
 
   // Each face rotation
   const faceTransforms = [
-    "rotateY(0deg) translateZ(60px)",      // front
-    "rotateY(180deg) translateZ(60px)",     // back
-    "rotateY(90deg) translateZ(60px)",      // right
-    "rotateY(-90deg) translateZ(60px)",     // left
-    "rotateX(90deg) translateZ(60px)",      // top
-    "rotateX(-90deg) translateZ(60px)",     // bottom
+    "rotateY(0deg) translateZ(36px)",
+    "rotateY(180deg) translateZ(36px)",
+    "rotateY(90deg) translateZ(36px)",
+    "rotateY(-90deg) translateZ(36px)",
+    "rotateX(90deg) translateZ(36px)",
+    "rotateX(-90deg) translateZ(36px)",
   ];
 
   // Target rotation to land on each face
@@ -44,10 +44,10 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
   return (
     <button
       onClick={handleClick}
-      className="group flex flex-col items-center justify-center gap-3 px-10 py-6 rounded-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
+      className="group flex flex-col items-center justify-center gap-2 px-5 py-4 rounded-xl opacity-60 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-pointer"
     >
       {/* 3D Dice */}
-      <div className="relative" style={{ perspective: "600px", width: 120, height: 120 }}>
+      <div className="relative" style={{ perspective: "400px", width: 72, height: 72 }}>
         <div
           className="absolute inset-0"
           style={{
@@ -64,32 +64,24 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
           {faceTransforms.map((transform, i) => (
             <div
               key={i}
-              className="absolute inset-0 flex items-center justify-center rounded-2xl border-2 border-border/50 backdrop-blur-sm"
+              className="absolute inset-0 flex items-center justify-center rounded-xl border border-border/30"
               style={{
-                width: 120,
-                height: 120,
+                width: 72,
+                height: 72,
                 transform,
                 backfaceVisibility: "hidden",
-                background: "hsl(var(--card) / 0.95)",
-                boxShadow: "inset 0 0 20px hsl(var(--primary) / 0.05)",
+                background: "hsl(var(--card) / 0.9)",
               }}
             >
-              <span className="text-4xl select-none">{FACE_EMOJIS[i]}</span>
+              <span className="text-2xl select-none">{FACE_EMOJIS[i]}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex flex-col gap-1">
-        <span className="font-heading text-lg font-bold text-foreground">
-          {isRolling ? "骰子擲出中..." : "隨機挑戰"}
-        </span>
-        {!isRolling && (
-          <p className="text-xs text-muted-foreground font-medium leading-relaxed">
-            點擊骰子隨機挑選一個<br />未知情境進行練習
-          </p>
-        )}
-      </div>
+      <span className="text-xs font-medium text-muted-foreground/70">
+        {isRolling ? "擲骰中..." : "隨機挑戰"}
+      </span>
 
       <style>{`
         @keyframes diceRoll {
