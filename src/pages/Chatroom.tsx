@@ -286,7 +286,8 @@ export default function Chatroom() {
                         onClick={() => setIsDiceRolling(true)}
                         onRollComplete={() => {
                           setIsDiceRolling(false);
-                          handleStart();
+                          const randomScenario = allScenarios[Math.floor(Math.random() * allScenarios.length)];
+                          setRolledScenario(randomScenario);
                         }}
                       />
                     </div>
