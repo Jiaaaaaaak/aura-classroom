@@ -285,20 +285,14 @@ export default function Chatroom() {
                     {displayedScenarios.map((scenario) => (
                       <ScenarioCard key={scenario.id} scenario={scenario} onClick={handleCardClick} />
                     ))}
-                    <button
-                      onClick={handleRandomClick}
-                      className="group flex flex-col items-center justify-center gap-4 p-8 border-2 border-dashed border-primary/30 rounded-2xl bg-white hover:border-primary hover:bg-primary/5 hover:shadow-xl transition-all duration-300"
-                    >
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Dices className="w-8 h-8 text-primary" />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="font-heading text-lg font-bold text-[#3D3831]">隨機挑戰</span>
-                        <p className="text-xs text-[#706C61] font-medium leading-relaxed">
-                          由系統隨機挑選一個<br/>未知情境進行練習
-                        </p>
-                      </div>
-                    </button>
+                    <DiceRoller
+                      isRolling={isDiceRolling}
+                      onClick={() => setIsDiceRolling(true)}
+                      onRollComplete={() => {
+                        setIsDiceRolling(false);
+                        handleStart();
+                      }}
+                    />
                  </div>
                </div>
             </div>
