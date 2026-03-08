@@ -314,6 +314,16 @@ export default function Chatroom() {
           {!isStarted && showRandomConfirm && (
             <RandomConfirm onClose={handleCloseDetail} onStart={() => handleStart()} />
           )}
+          {!isStarted && rolledScenario && (
+            <ScenarioDetail
+              scenario={rolledScenario}
+              onClose={() => setRolledScenario(null)}
+              onStart={(scenario) => {
+                setRolledScenario(null);
+                handleStart(scenario);
+              }}
+            />
+          )}
 
           {/* 3. ACTIVE SESSION VIEW - just ChatPanel over background */}
           {isStarted && (
