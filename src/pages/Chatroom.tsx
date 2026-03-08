@@ -98,11 +98,20 @@ export default function Chatroom() {
 
   const handleStart = (scenario?: (typeof allScenarios)[0]) => {
     const chosen = scenario || allScenarios.find(s => s.id === selectedScenarioId) || pickRandomScenarios(allScenarios, 1)[0];
-    setActiveScenario(chosen);
+    setPendingScenario(chosen);
     setSelectedScenarioId(null);
     setShowRandomConfirm(false);
-    // Show voice prompt before starting
+  };
+
+  const handleProfileConfirm = (profile: StudentProfile) => {
+    setStudentProfile(profile);
+    setActiveScenario(pendingScenario);
+    setPendingScenario(null);
     setVoicePromptOpen(true);
+  };
+
+  const handleProfileBack = () => {
+    setPendingScenario(null);
   };
 
   const [voiceEnabled, setVoiceEnabled] = useState(false);
