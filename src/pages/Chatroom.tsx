@@ -49,6 +49,8 @@ export default function Chatroom() {
   const [studentEmotion, setStudentEmotion] = useState<"neutral" | "angry" | "sad" | "thinking">("neutral");
   const [selectedScenarioId, setSelectedScenarioId] = useState<number | null>(null);
   const [activeScenario, setActiveScenario] = useState<(typeof allScenarios)[0] | null>(null);
+  const [pendingScenario, setPendingScenario] = useState<(typeof allScenarios)[0] | null>(null);
+  const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null);
   const [activeTag, setActiveTag] = useState("全部");
   const [showRandomConfirm, setShowRandomConfirm] = useState(false);
   const [isDiceRolling, setIsDiceRolling] = useState(false);
