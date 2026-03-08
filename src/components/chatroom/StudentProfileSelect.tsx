@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, Sparkles, GraduationCap } from "lucide-react";
 
-const PERSONALITY_TRAITS = [
+export const PERSONALITY_TRAITS = [
   { id: "hedgehog", label: "防衛刺蝟型", emoji: "🦔", desc: "容易築起心牆，用攻擊掩飾脆弱" },
   { id: "impulsive", label: "衝動干擾型", emoji: "💥", desc: "行為衝動，常打斷他人或製造混亂" },
   { id: "anxious", label: "焦慮退縮型", emoji: "🐢", desc: "緊張不安，傾向迴避社交與挑戰" },
@@ -14,7 +14,7 @@ const PERSONALITY_TRAITS = [
   { id: "marginal", label: "隨和邊緣型", emoji: "🍃", desc: "看似隨和，實則被群體忽略邊緣化" },
 ];
 
-const GRADE_LEVELS = [
+export const GRADE_LEVELS = [
   { id: "lower-elementary", label: "低年級", desc: "小一～小二", emoji: "🌱" },
   { id: "mid-elementary", label: "中年級", desc: "小三～小四", emoji: "🌿" },
   { id: "upper-elementary", label: "高年級", desc: "小五～小六", emoji: "🌳" },
