@@ -20,6 +20,7 @@ import ScenarioDetail from "@/components/chatroom/ScenarioDetail";
 import RandomConfirm from "@/components/chatroom/RandomConfirm";
 import ChatPanel from "@/components/chatroom/ChatPanel";
 import DiceRoller from "@/components/chatroom/DiceRoller";
+import StudentProfileSelect, { type StudentProfile } from "@/components/chatroom/StudentProfileSelect";
 
 const allScenarios = [
   { id: 1, title: "考場失利後的自責", tag: "自我覺察", emoji: "📝", description: "學生在一次重要考試中表現不佳，感到極度自責和沮喪。他開始質疑自己的能力，甚至不想再上學。" },
@@ -48,6 +49,8 @@ export default function Chatroom() {
   const [studentEmotion, setStudentEmotion] = useState<"neutral" | "angry" | "sad" | "thinking">("neutral");
   const [selectedScenarioId, setSelectedScenarioId] = useState<number | null>(null);
   const [activeScenario, setActiveScenario] = useState<(typeof allScenarios)[0] | null>(null);
+  const [pendingScenario, setPendingScenario] = useState<(typeof allScenarios)[0] | null>(null);
+  const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null);
   const [activeTag, setActiveTag] = useState("全部");
   const [showRandomConfirm, setShowRandomConfirm] = useState(false);
   const [isDiceRolling, setIsDiceRolling] = useState(false);
@@ -95,11 +98,20 @@ export default function Chatroom() {
 
   const handleStart = (scenario?: (typeof allScenarios)[0]) => {
     const chosen = scenario || allScenarios.find(s => s.id === selectedScenarioId) || pickRandomScenarios(allScenarios, 1)[0];
-    setActiveScenario(chosen);
+    setPendingScenario(chosen);
     setSelectedScenarioId(null);
     setShowRandomConfirm(false);
-    // Show voice prompt before starting
+  };
+
+  const handleProfileConfirm = (profile: StudentProfile) => {
+    setStudentProfile(profile);
+    setActiveScenario(pendingScenario);
+    setPendingScenario(null);
     setVoicePromptOpen(true);
+  };
+
+  const handleProfileBack = () => {
+    setPendingScenario(null);
   };
 
   const [voiceEnabled, setVoiceEnabled] = useState(false);
@@ -247,7 +259,7 @@ export default function Chatroom() {
           )}
 
           {/* 1. SCENARIO SELECTION VIEW */}
-          {!isStarted && !selectedScenarioId && !showRandomConfirm && (
+          {!isStarted && !pendingScenario && !selectedScenarioId && !showRandomConfirm && !rolledScenario && (
             <div className="h-full overflow-y-auto px-6 py-10 md:px-12 animate-in fade-in duration-500 bg-[#FAF9F6]">
                <div className="max-w-5xl mx-auto flex flex-col gap-10">
                  <div className="flex flex-col gap-6">
@@ -322,6 +334,14 @@ export default function Chatroom() {
                 setRolledScenario(null);
                 handleStart(scenario);
               }}
+            />
+          )}
+
+          {/* 2.5 STUDENT PROFILE SELECTION */}
+          {!isStarted && pendingScenario && (
+            <StudentProfileSelect
+              onConfirm={handleProfileConfirm}
+              onBack={handleProfileBack}
             />
           )}
 
