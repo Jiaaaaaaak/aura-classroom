@@ -220,11 +220,17 @@ export default function Chatroom() {
               <div className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-sm border-2 border-white shadow-xl flex items-center justify-center text-3xl">
                 {renderStudentAvatar()}
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-0.5">
                 <span className="font-heading text-base font-bold text-white drop-shadow-md">
-                  小明（國二）
+                  {studentProfile ? `${GRADE_LEVELS.find(g => g.id === studentProfile.grade)?.label ?? ""}學生` : "小明（國二）"}
                 </span>
-                <div className="flex items-center gap-1.5">
+                {studentProfile && (
+                  <span className="text-[11px] font-bold text-white/90 drop-shadow-sm bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full w-fit">
+                    {PERSONALITY_TRAITS.find(p => p.id === studentProfile.personality)?.emoji}{" "}
+                    {PERSONALITY_TRAITS.find(p => p.id === studentProfile.personality)?.label}
+                  </span>
+                )}
+                <div className="flex items-center gap-1.5 mt-0.5">
                   <div className={`w-1.5 h-1.5 rounded-full ${isPaused ? "bg-[#A09C94]" : "bg-primary animate-pulse"}`} />
                   <span className="text-xs font-medium text-white/80 drop-shadow-sm">
                     {emotionLabel()}
