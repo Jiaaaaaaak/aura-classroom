@@ -50,6 +50,7 @@ export default function Chatroom() {
   const [activeScenario, setActiveScenario] = useState<(typeof allScenarios)[0] | null>(null);
   const [activeTag, setActiveTag] = useState("全部");
   const [showRandomConfirm, setShowRandomConfirm] = useState(false);
+  const [isDiceRolling, setIsDiceRolling] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const [voicePromptOpen, setVoicePromptOpen] = useState(false);
   const [displayedScenarios, setDisplayedScenarios] = useState(() =>
