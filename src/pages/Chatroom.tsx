@@ -51,6 +51,7 @@ export default function Chatroom() {
   const [activeTag, setActiveTag] = useState("全部");
   const [showRandomConfirm, setShowRandomConfirm] = useState(false);
   const [isDiceRolling, setIsDiceRolling] = useState(false);
+  const [rolledScenario, setRolledScenario] = useState<(typeof allScenarios)[0] | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
   const [voicePromptOpen, setVoicePromptOpen] = useState(false);
   const [displayedScenarios, setDisplayedScenarios] = useState(() =>
@@ -285,7 +286,8 @@ export default function Chatroom() {
                         onClick={() => setIsDiceRolling(true)}
                         onRollComplete={() => {
                           setIsDiceRolling(false);
-                          handleStart();
+                          const randomScenario = allScenarios[Math.floor(Math.random() * allScenarios.length)];
+                          setRolledScenario(randomScenario);
                         }}
                       />
                     </div>
@@ -311,6 +313,16 @@ export default function Chatroom() {
           )}
           {!isStarted && showRandomConfirm && (
             <RandomConfirm onClose={handleCloseDetail} onStart={() => handleStart()} />
+          )}
+          {!isStarted && rolledScenario && (
+            <ScenarioDetail
+              scenario={rolledScenario}
+              onClose={() => setRolledScenario(null)}
+              onStart={(scenario) => {
+                setRolledScenario(null);
+                handleStart(scenario);
+              }}
+            />
           )}
 
           {/* 3. ACTIVE SESSION VIEW - just ChatPanel over background */}
