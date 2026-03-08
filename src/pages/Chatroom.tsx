@@ -19,6 +19,7 @@ import ScenarioCard from "@/components/chatroom/ScenarioCard";
 import ScenarioDetail from "@/components/chatroom/ScenarioDetail";
 import RandomConfirm from "@/components/chatroom/RandomConfirm";
 import ChatPanel from "@/components/chatroom/ChatPanel";
+import DiceRoller from "@/components/chatroom/DiceRoller";
 
 const allScenarios = [
   { id: 1, title: "考場失利後的自責", tag: "自我覺察", emoji: "📝", description: "學生在一次重要考試中表現不佳，感到極度自責和沮喪。他開始質疑自己的能力，甚至不想再上學。" },
@@ -49,6 +50,7 @@ export default function Chatroom() {
   const [activeScenario, setActiveScenario] = useState<(typeof allScenarios)[0] | null>(null);
   const [activeTag, setActiveTag] = useState("全部");
   const [showRandomConfirm, setShowRandomConfirm] = useState(false);
+  const [isDiceRolling, setIsDiceRolling] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const [voicePromptOpen, setVoicePromptOpen] = useState(false);
   const [displayedScenarios, setDisplayedScenarios] = useState(() =>
@@ -283,20 +285,14 @@ export default function Chatroom() {
                     {displayedScenarios.map((scenario) => (
                       <ScenarioCard key={scenario.id} scenario={scenario} onClick={handleCardClick} />
                     ))}
-                    <button
-                      onClick={handleRandomClick}
-                      className="group flex flex-col items-center justify-center gap-4 p-8 border-2 border-dashed border-primary/30 rounded-2xl bg-white hover:border-primary hover:bg-primary/5 hover:shadow-xl transition-all duration-300"
-                    >
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Dices className="w-8 h-8 text-primary" />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="font-heading text-lg font-bold text-[#3D3831]">隨機挑戰</span>
-                        <p className="text-xs text-[#706C61] font-medium leading-relaxed">
-                          由系統隨機挑選一個<br/>未知情境進行練習
-                        </p>
-                      </div>
-                    </button>
+                    <DiceRoller
+                      isRolling={isDiceRolling}
+                      onClick={() => setIsDiceRolling(true)}
+                      onRollComplete={() => {
+                        setIsDiceRolling(false);
+                        handleStart();
+                      }}
+                    />
                  </div>
                </div>
             </div>
