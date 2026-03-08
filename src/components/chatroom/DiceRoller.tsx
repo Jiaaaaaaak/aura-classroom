@@ -47,7 +47,7 @@ export default function DiceRoller({ onRollComplete, onClick, isRolling }: DiceR
       className="group flex flex-col items-center justify-center gap-2 px-5 py-4 rounded-xl opacity-60 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-pointer"
     >
       {/* 3D Dice */}
-      <div className="relative" style={{ perspective: "600px", width: 120, height: 120 }}>
+      <div className="relative" style={{ perspective: "400px", width: 72, height: 72 }}>
         <div
           className="absolute inset-0"
           style={{
