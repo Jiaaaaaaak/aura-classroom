@@ -14,7 +14,7 @@ export const PERSONALITY_TRAITS = [
   { id: "marginal", label: "隨和邊緣型", emoji: "🍃", desc: "看似隨和，實則被群體忽略邊緣化" },
 ];
 
-const GRADE_LEVELS = [
+export const GRADE_LEVELS = [
   { id: "lower-elementary", label: "低年級", desc: "小一～小二", emoji: "🌱" },
   { id: "mid-elementary", label: "中年級", desc: "小三～小四", emoji: "🌿" },
   { id: "upper-elementary", label: "高年級", desc: "小五～小六", emoji: "🌳" },
