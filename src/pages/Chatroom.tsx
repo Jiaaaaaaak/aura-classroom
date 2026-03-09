@@ -19,58 +19,7 @@ import SkillTreeMap from "@/components/chatroom/SkillTreeMap";
 import SoulCards from "@/components/chatroom/SoulCards";
 import StudentProfileSelect, { type StudentProfile, PERSONALITY_TRAITS, GRADE_LEVELS } from "@/components/chatroom/StudentProfileSelect";
 
-const allScenarios = [
-  { id: 1, title: "考場失利後的自責", tag: "自我覺察", emoji: "📝", description: "學生在一次重要考試中表現不佳，感到極度自責和沮喪。他開始質疑自己的能力，甚至不想再上學。", guideSentence: "自責是對自己過高的期待，也是成長的起點。" },
-  { id: 2, title: "分組被落單的窘迫", tag: "社會覺察", emoji: "👥", description: "班上分組活動時，有一位學生總是最後一個被選或直接被遺漏。他表面上裝作無所謂，但內心其實很受傷。", guideSentence: "被忽略的感受，值得被看見。" },
-  { id: 3, title: "被當眾誤解的憤怒", tag: "自我管理", emoji: "😤", description: "學生在課堂上被同學誤解並當眾指責，他非常憤怒，差點失控動手。你需要幫助他冷靜下來。", guideSentence: "有時候，憤怒只是保護受傷心靈的外殼。" },
-  { id: 4, title: "好朋友吵架的糾結", tag: "人際技巧", emoji: "🤝", description: "兩個好朋友因為一件小事吵架了，其中一位來找你傾訴。他既想和好，又覺得委屈。引導他學習溝通技巧。", guideSentence: "珍貴的友誼，值得我們學習如何修復。" },
-  { id: 5, title: "面對新環境的焦慮", tag: "自我覺察", emoji: "🌱", description: "學生剛轉學到新班級，對陌生的環境和同學感到極度焦慮。他不敢主動交朋友，午餐時間總是一個人。", guideSentence: "每一次陌生，都是重新認識自己的機會。" },
-  { id: 6, title: "承認作弊後的羞愧", tag: "負責決策", emoji: "💭", description: "學生在考試中作弊被發現，他感到非常羞愧，不知道如何面對老師和同學。引導他理解誠實的重要性。", guideSentence: "承認錯誤需要的勇氣，比想像中更大。" },
-];
-
-// Group scenarios by SEL competency
-const COMPETENCY_GROUPS = [
-  {
-    id: "self-awareness",
-    label: "自我覺察",
-    icon: "🔍",
-    color: "12 69% 63%",
-    description: "認識自己的情緒、價值觀與能力",
-    scenarios: allScenarios.filter(s => s.tag === "自我覺察"),
-  },
-  {
-    id: "self-management",
-    label: "自我管理",
-    icon: "🎯",
-    color: "150 25% 55%",
-    description: "調節情緒、設定目標與自律",
-    scenarios: allScenarios.filter(s => s.tag === "自我管理"),
-  },
-  {
-    id: "social-awareness",
-    label: "社會覺察",
-    icon: "👁️",
-    color: "43 74% 75%",
-    description: "理解他人感受與尊重多元差異",
-    scenarios: allScenarios.filter(s => s.tag === "社會覺察"),
-  },
-  {
-    id: "relationship-skills",
-    label: "人際技巧",
-    icon: "🤝",
-    color: "200 40% 65%",
-    description: "建立健康關係與有效溝通",
-    scenarios: allScenarios.filter(s => s.tag === "人際技巧"),
-  },
-  {
-    id: "responsible-decisions",
-    label: "負責決策",
-    icon: "⚖️",
-    color: "340 40% 65%",
-    description: "做出負責任且有建設性的選擇",
-    scenarios: allScenarios.filter(s => s.tag === "負責決策"),
-  },
-];
+import { allScenarios, COMPETENCY_GROUPS } from "@/lib/collectionData";
 
 export default function Chatroom() {
   const navigate = useNavigate();
