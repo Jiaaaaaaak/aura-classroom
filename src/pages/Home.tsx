@@ -62,11 +62,12 @@ export default function Home() {
                   PLATFORM VISION
                 </span>
                 <h2 className="font-heading text-3xl md:text-5xl font-bold text-[#FAF9F6] leading-[1.15] tracking-tight max-w-[800px]">
-                  在安心的空間裡，練習溫柔而堅定的對話
+                  在安心的空間裡，<br />
+                  練習溫柔而堅定的對話
                 </h2>
                 <p className="text-[17px] text-[#A09C94] leading-relaxed max-w-[700px] font-medium">
-                  透過 Satir 薩提爾溝通模式與 SEL 社會情緒學習理論，我們為教師打造一個無壓力的
-                  AI 對話練習場。在這裡，每一次的嘗試都是成長的養分。
+                  透過 Satir 薩提爾溝通模式與 SEL 社會情緒學習理論，我們為教師打造一個無壓力的 AI 對話練習場。<br />
+                  在這裡，每一次的嘗試都是成長的養分。
                 </p>
               </div>
 
