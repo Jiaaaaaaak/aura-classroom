@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
+import { sfxShuffle, sfxFlip, sfxReveal, sfxClick } from "@/lib/soulCardSfx";
 
 interface Scenario {
   id: number;
