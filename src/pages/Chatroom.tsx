@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import ScenarioDetail from "@/components/chatroom/ScenarioDetail";
 import ChatPanel from "@/components/chatroom/ChatPanel";
 import SkillTreeMap from "@/components/chatroom/SkillTreeMap";
-import ScenarioOverview from "@/components/chatroom/ScenarioOverview";
+
 import SoulCards from "@/components/chatroom/SoulCards";
 import StudentProfileSelect, { type StudentProfile, PERSONALITY_TRAITS, GRADE_LEVELS } from "@/components/chatroom/StudentProfileSelect";
 
