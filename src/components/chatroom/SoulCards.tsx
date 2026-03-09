@@ -462,10 +462,27 @@ export default function SoulCards({ scenarios, open, onClose, onStart }: SoulCar
           from { opacity: 0.3; transform: scale(0.8); }
           to { opacity: 1; transform: scale(1.3); }
         }
-        @keyframes sparkleOut {
-          0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
-          30% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
-          100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) translateY(-30px); }
+        @keyframes particleBurst {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(0) scale(0);
+          }
+          15% {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(calc(var(--burst-distance) * -0.3)) scale(1.4);
+          }
+          60% {
+            opacity: 0.8;
+            transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(calc(var(--burst-distance) * -0.85)) scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(calc(var(--burst-distance) * -1.1)) scale(0.3);
+          }
+        }
+        @keyframes shimmerFloat {
+          0% { opacity: 0.4; transform: translate(var(--tx, 0), var(--ty, 0)) scale(0.8); }
+          100% { opacity: 0.9; transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.3) translateY(-8px); }
         }
       `}</style>
     </div>,
