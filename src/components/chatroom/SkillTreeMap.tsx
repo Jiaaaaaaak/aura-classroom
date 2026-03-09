@@ -129,7 +129,7 @@ export default function SkillTreeMap({ groups, onSelectScenario, onOpenSoulCards
             className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
           >
             <span className="text-lg">🃏</span>
-            <span className="text-xs font-bold tracking-wide hidden sm:inline">心靈牌卡</span>
+            <span className="text-xs font-bold tracking-wide hidden sm:inline">隨機牌卡</span>
             <Sparkles className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
           </button>
         </div>
