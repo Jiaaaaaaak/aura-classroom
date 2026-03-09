@@ -40,10 +40,14 @@ const COMPETENCY_COLORS = [
 const SCENARIO_META: Record<number, { estimatedMinutes: number; practiceCount: number }> = {
   1: { estimatedMinutes: 10, practiceCount: 275 },
   2: { estimatedMinutes: 12, practiceCount: 218 },
-  3: { estimatedMinutes: 8, practiceCount: 412 },
+  3: { estimatedMinutes: 8, practiceCount: 156 },
   4: { estimatedMinutes: 10, practiceCount: 189 },
-  5: { estimatedMinutes: 12, practiceCount: 301 },
-  6: { estimatedMinutes: 10, practiceCount: 156 },
+  5: { estimatedMinutes: 8, practiceCount: 412 },
+  6: { estimatedMinutes: 10, practiceCount: 143 },
+  7: { estimatedMinutes: 12, practiceCount: 301 },
+  8: { estimatedMinutes: 10, practiceCount: 156 },
+  9: { estimatedMinutes: 15, practiceCount: 98 },
+  10: { estimatedMinutes: 12, practiceCount: 127 },
 };
 
 type ViewMode = "grid" | "list";
