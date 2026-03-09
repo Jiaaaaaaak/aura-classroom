@@ -65,23 +65,31 @@ function playNoiseBurst(duration: number, freq: number, gain = 0.08, delay = 0) 
    ═══════════════════════════════════════ */
 
 /**
+ * Deal SFX — a single card being placed down, like a crisp "thwap".
+ * Call once per card with increasing delay for staggered effect.
+ */
+export function sfxDeal(delay = 0) {
+  // Sharp high-frequency click (card hitting table)
+  playNoiseBurst(0.05, 2500, 0.1, delay);
+  // Subtle tonal body
+  playTone(600, 0.06, "triangle", 0.04, delay);
+  // Soft low thump
+  playNoiseBurst(0.03, 400, 0.06, delay + 0.02);
+}
+
+/**
  * Shuffle SFX — rapid rhythmic tapping like cards being riffled.
- * Plays a repeating pattern over ~2 seconds.
  */
 export function sfxShuffle() {
-  const ctx = getCtx();
   const totalTicks = 18;
   for (let i = 0; i < totalTicks; i++) {
     const t = i * 0.11;
     const freq = 800 + Math.sin(i * 0.7) * 200;
-    // Short click
     playNoiseBurst(0.04, freq, 0.06 + (i / totalTicks) * 0.04, t);
-    // Subtle tonal ping
     if (i % 3 === 0) {
       playTone(1200 + i * 30, 0.05, "triangle", 0.03, t);
     }
   }
-  // Underlying low rumble
   playNoiseBurst(1.8, 200, 0.03, 0);
 }
 
@@ -89,7 +97,6 @@ export function sfxShuffle() {
  * Flip SFX — a quick swoosh with a soft "thwap" at the end.
  */
 export function sfxFlip() {
-  // Rising swoosh
   const ctx = getCtx();
   const osc = ctx.createOscillator();
   const g = ctx.createGain();
@@ -103,34 +110,26 @@ export function sfxFlip() {
   osc.start();
   osc.stop(ctx.currentTime + 0.35);
 
-  // Noise whoosh
   playNoiseBurst(0.2, 2000, 0.06, 0);
-  // Soft thwap
   playNoiseBurst(0.06, 500, 0.1, 0.12);
 }
 
 /**
  * Reveal SFX — magical ascending chime with sparkle shimmer.
- * Like opening an SSR card in a gacha game.
  */
 export function sfxReveal() {
-  // Ascending arpeggio (pentatonic: C5, D5, E5, G5, A5, C6)
   const notes = [523, 587, 659, 784, 880, 1047];
   notes.forEach((freq, i) => {
     playTone(freq, 0.6 - i * 0.05, "sine", 0.1 - i * 0.008, i * 0.08);
-    // Octave shimmer
     playTone(freq * 2, 0.3, "sine", 0.04, i * 0.08 + 0.02);
   });
 
-  // Sparkle noise shimmer
   playNoiseBurst(0.8, 6000, 0.04, 0.2);
   playNoiseBurst(0.5, 8000, 0.03, 0.5);
 
-  // Low warm pad
   playTone(262, 1.2, "sine", 0.06, 0.1);
   playTone(330, 1.0, "sine", 0.04, 0.2);
 
-  // Final bright ping
   playTone(1047, 0.8, "triangle", 0.07, 0.55);
   playTone(1568, 0.6, "sine", 0.04, 0.6);
 }
