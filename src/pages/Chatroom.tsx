@@ -150,7 +150,7 @@ export default function Chatroom() {
                    Growth Map
                  </Badge>
                  <h2 className="text-sm font-bold text-[#3D3831] truncate max-w-[200px] md:max-w-none">
-                   心靈成長地圖
+                   對話成長練習
                  </h2>
                </>
              )}
