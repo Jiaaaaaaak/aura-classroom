@@ -2,13 +2,7 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import { Search, Calendar, ChevronDown, ChevronRight, Filter, X } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { historyItems } from "@/lib/collectionData";
-
-const gradeStyles = (grade: string) => {
-  if (grade.startsWith("A")) return "bg-[#81B29A15] text-[#81B29A] border-[#81B29A30]";
-  return "bg-[#F2CC8F20] text-[#D4A853] border-[#F2CC8F40]";
-};
 
 export default function History() {
   const navigate = useNavigate();
@@ -108,7 +102,6 @@ export default function History() {
                   <p className="text-[13px] text-[#706C61] font-medium">
                     練習時長 <span className="text-[#3D3831]">{item.duration}</span> · 回合數 <span className="text-[#3D3831]">{item.rounds}</span>
                   </p>
-                  {/* Scenario tag linking to collection */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -120,11 +113,6 @@ export default function History() {
                   </button>
                 </div>
               </div>
-
-              {/* Score badge */}
-              <Badge className={`px-3 py-1 font-heading text-xs font-bold rounded-lg border shadow-sm ${gradeStyles(item.grade)}`}>
-                {item.grade}
-              </Badge>
 
               {/* Arrow */}
               <div className="w-8 h-8 rounded-full flex items-center justify-center bg-transparent group-hover:bg-primary/10 transition-colors">
