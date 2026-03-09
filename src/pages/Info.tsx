@@ -173,7 +173,7 @@ export default function Info() {
             <div className="bg-white border border-[#E5E2D9] rounded-2xl p-8 shadow-sm flex items-center justify-between group cursor-pointer hover:border-primary/30 transition-all">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-[#FAF9F6] rounded-xl flex items-center justify-center">
-                     <Trophy className="w-6 h-6 text-[#A09C94]" />
+                     <Shield className="w-6 h-6 text-[#A09C94]" />
                   </div>
                   <div>
                      <h3 className="font-heading text-[15px] font-bold text-[#3D3831]">帳號安全設定</h3>
