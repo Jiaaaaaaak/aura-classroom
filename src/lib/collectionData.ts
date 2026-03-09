@@ -31,14 +31,25 @@ export const COMPETENCY_GROUPS: CompetencyGroup[] = [
     ],
   },
   {
+    id: "self-management",
+    label: "自我管理",
+    icon: "🧘",
+    color: "hsl(200, 40%, 65%)",
+    description: "學習調節情緒、設定目標與自我激勵的能力。",
+    scenarios: [
+      { id: 3, title: "考試焦慮", tag: "自我管理", emoji: "😰", description: "學生因為即將到來的考試感到極度焦慮，無法專心上課。", guideSentence: "引導學生學習情緒調節的策略。" },
+      { id: 4, title: "拖延迴圈", tag: "自我管理", emoji: "⏰", description: "學生總是拖延作業到最後一刻，陷入焦慮與自責的循環。", guideSentence: "幫助學生建立自我管理的習慣。" },
+    ],
+  },
+  {
     id: "social-awareness",
     label: "社會覺察",
     icon: "🌍",
     color: "hsl(150, 25%, 55%)",
     description: "培養同理心與對他人感受的敏感度。",
     scenarios: [
-      { id: 3, title: "被排擠的新生", tag: "社會覺察", emoji: "🧑‍🎓", description: "新轉學生被班上同學排擠，午餐時總是一個人。", guideSentence: "引導學生思考他人的感受。" },
-      { id: 4, title: "無聲的霸凌", tag: "社會覺察", emoji: "🤐", description: "學生透過網路對同學進行言語霸凌，受害者不敢求助。", guideSentence: "幫助學生認識霸凌的影響。" },
+      { id: 5, title: "被排擠的新生", tag: "社會覺察", emoji: "🧑‍🎓", description: "新轉學生被班上同學排擠，午餐時總是一個人。", guideSentence: "引導學生思考他人的感受。" },
+      { id: 6, title: "無聲的霸凌", tag: "社會覺察", emoji: "🤐", description: "學生透過網路對同學進行言語霸凌，受害者不敢求助。", guideSentence: "幫助學生認識霸凌的影響。" },
     ],
   },
   {
@@ -48,8 +59,19 @@ export const COMPETENCY_GROUPS: CompetencyGroup[] = [
     color: "hsl(43, 74%, 70%)",
     description: "學習有效溝通與建立正向關係的方法。",
     scenarios: [
-      { id: 5, title: "友誼的裂痕", tag: "人際技巧", emoji: "💔", description: "兩位好友因誤會產生衝突，互不理睬。", guideSentence: "引導學生學習衝突解決的技巧。" },
-      { id: 6, title: "團隊風波", tag: "人際技巧", emoji: "🤔", description: "小組報告時，有同學不願意分工合作。", guideSentence: "練習團隊溝通與合作的能力。" },
+      { id: 7, title: "友誼的裂痕", tag: "人際技巧", emoji: "💔", description: "兩位好友因誤會產生衝突，互不理睬。", guideSentence: "引導學生學習衝突解決的技巧。" },
+      { id: 8, title: "團隊風波", tag: "人際技巧", emoji: "🤔", description: "小組報告時，有同學不願意分工合作。", guideSentence: "練習團隊溝通與合作的能力。" },
+    ],
+  },
+  {
+    id: "responsible-decision",
+    label: "負責決策",
+    icon: "⚖️",
+    color: "hsl(340, 40%, 65%)",
+    description: "培養做出負責任且具建設性決定的能力。",
+    scenarios: [
+      { id: 9, title: "抄襲的誘惑", tag: "負責決策", emoji: "📝", description: "學生發現好友在考試中作弊，不知道是否該舉報。", guideSentence: "引導學生思考誠實與友誼的平衡。" },
+      { id: 10, title: "網路陷阱", tag: "負責決策", emoji: "📱", description: "學生沉迷於網路遊戲，開始影響學業與人際關係。", guideSentence: "幫助學生學習評估行為後果的能力。" },
     ],
   },
 ];
