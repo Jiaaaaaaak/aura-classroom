@@ -145,8 +145,8 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
       {/* Spacer */}
       <div className="flex-1" />
 
-      {/* Session controls or Logout */}
-      {sessionInfo ? (
+      {/* Session controls */}
+      {sessionInfo && (
         <div className="px-3 mb-6 flex flex-col gap-1.5">
           <button
             onClick={sessionInfo.onTogglePause}
@@ -163,19 +163,9 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
             <span>結束對話並分析</span>
           </button>
         </div>
-      ) : (
-        <div className="px-3 mb-6">
-          <button
-            onClick={() => handleNav("/login")}
-            className="flex items-center gap-3 w-full px-4 py-3 text-[13px] font-heading font-semibold text-[#A09C94] hover:text-[#FAF9F6] hover:bg-white/5 transition-all rounded-sm group"
-          >
-            <LogOut className="w-5 h-5 shrink-0 group-hover:text-destructive transition-colors" />
-            <span>登出系統</span>
-          </button>
-        </div>
       )}
 
-      {/* User profile info */}
+      {/* User profile + logout */}
       <div className="px-6 pt-6 border-t border-white/5">
         <div className="flex items-center gap-3 group cursor-pointer" onClick={() => handleNav("/info")}>
           <div className="w-10 h-10 rounded-full bg-[#3D3831] border border-white/10 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105">
@@ -192,6 +182,13 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
             </span>
           </div>
         </div>
+        <button
+          onClick={() => handleNav("/login")}
+          className="flex items-center gap-2 w-full mt-3 px-1 py-2 text-[12px] font-heading font-semibold text-[#706C61] hover:text-[#FAF9F6] transition-all rounded-sm group"
+        >
+          <LogOut className="w-4 h-4 shrink-0 group-hover:text-destructive transition-colors" />
+          <span>登出系統</span>
+        </button>
       </div>
     </div>
   );
