@@ -59,8 +59,19 @@ export const COMPETENCY_GROUPS: CompetencyGroup[] = [
     color: "hsl(43, 74%, 70%)",
     description: "學習有效溝通與建立正向關係的方法。",
     scenarios: [
-      { id: 5, title: "友誼的裂痕", tag: "人際技巧", emoji: "💔", description: "兩位好友因誤會產生衝突，互不理睬。", guideSentence: "引導學生學習衝突解決的技巧。" },
-      { id: 6, title: "團隊風波", tag: "人際技巧", emoji: "🤔", description: "小組報告時，有同學不願意分工合作。", guideSentence: "練習團隊溝通與合作的能力。" },
+      { id: 7, title: "友誼的裂痕", tag: "人際技巧", emoji: "💔", description: "兩位好友因誤會產生衝突，互不理睬。", guideSentence: "引導學生學習衝突解決的技巧。" },
+      { id: 8, title: "團隊風波", tag: "人際技巧", emoji: "🤔", description: "小組報告時，有同學不願意分工合作。", guideSentence: "練習團隊溝通與合作的能力。" },
+    ],
+  },
+  {
+    id: "responsible-decision",
+    label: "負責決策",
+    icon: "⚖️",
+    color: "hsl(340, 40%, 65%)",
+    description: "培養做出負責任且具建設性決定的能力。",
+    scenarios: [
+      { id: 9, title: "抄襲的誘惑", tag: "負責決策", emoji: "📝", description: "學生發現好友在考試中作弊，不知道是否該舉報。", guideSentence: "引導學生思考誠實與友誼的平衡。" },
+      { id: 10, title: "網路陷阱", tag: "負責決策", emoji: "📱", description: "學生沉迷於網路遊戲，開始影響學業與人際關係。", guideSentence: "幫助學生學習評估行為後果的能力。" },
     ],
   },
 ];
