@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/hooks/use-toast";
 import AppLayout from "@/components/AppLayout";
-import { Activity, Pencil, Save, X, User as UserIcon, Calendar, Trophy, School, ChevronRight } from "lucide-react";
+import { Activity, Pencil, Save, X, User as UserIcon, Calendar, School, ChevronRight, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
