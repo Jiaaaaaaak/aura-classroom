@@ -73,16 +73,19 @@ export default function SoulCards({ scenarios, open, onClose, onStart }: SoulCar
     setSelectedIdx(null);
     setShuffleTick(0);
     vibrate(15);
+    sfxShuffle();
 
     setTimeout(() => {
       const randomIdx = Math.floor(Math.random() * Math.min(CARD_COUNT, scenarios.length));
       setSelectedIdx(randomIdx);
       setGameState("revealing");
       vibrate([20, 40, 20]);
+      sfxFlip();
 
       setTimeout(() => {
         setGameState("revealed");
         vibrate([15, 30, 15, 30, 15]);
+        sfxReveal();
       }, REVEAL_DURATION);
     }, SHUFFLE_DURATION);
   }, [scenarios.length]);
