@@ -6,29 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { getCollectionCards, type CollectionCard } from "@/lib/collectionData";
 import {
   X,
-  Trophy,
   Clock3,
   RotateCcw,
   ArrowRight,
-  Sparkles,
   Lock,
   MessageCircle,
 } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-
-const GRADE_SCORE: Record<string, number> = { "A+": 100, A: 90, "A-": 82, "B+": 75, B: 65, "B-": 55, C: 40 };
-
-const gradeColor = (g: string) =>
-  g.startsWith("A")
-    ? "bg-[#81B29A15] text-[#81B29A] border-[#81B29A30]"
-    : "bg-[#F2CC8F20] text-[#D4A853] border-[#F2CC8F40]";
 
 export default function Collection() {
   const navigate = useNavigate();
@@ -37,12 +20,6 @@ export default function Collection() {
 
   const unlockedCount = cards.filter((c) => c.unlocked).length;
   const progressPct = Math.round((unlockedCount / cards.length) * 100);
-
-  const chartData = selected?.records.map((r, i) => ({
-    idx: i + 1,
-    score: GRADE_SCORE[r.grade] ?? 50,
-    label: r.date,
-  }));
 
   return (
     <AppLayout>
@@ -61,7 +38,6 @@ export default function Collection() {
             </p>
           </div>
 
-          {/* Progress */}
           <div className="flex flex-col gap-2 w-full md:w-[280px]">
             <div className="flex items-center justify-between text-[12px] font-bold">
               <span className="text-[#706C61]">
@@ -85,12 +61,10 @@ export default function Collection() {
                   : "bg-[#FAF9F6] border-dashed border-[#E5E2D9] opacity-60 grayscale cursor-default"
               }`}
             >
-              {/* Glow for unlocked */}
               {card.unlocked && (
                 <div className="absolute inset-0 rounded-2xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               )}
 
-              {/* Emoji */}
               <div
                 className={`relative w-16 h-16 rounded-xl flex items-center justify-center text-4xl transition-transform ${
                   card.unlocked
@@ -101,7 +75,6 @@ export default function Collection() {
                 {card.unlocked ? card.emoji : <Lock className="w-6 h-6 text-[#A09C94]" />}
               </div>
 
-              {/* Title */}
               <h3
                 className={`font-heading text-[15px] font-bold leading-snug ${
                   card.unlocked ? "text-[#3D3831] group-hover:text-primary" : "text-[#A09C94]"
@@ -110,7 +83,6 @@ export default function Collection() {
                 {card.unlocked ? card.title : "尚未探索"}
               </h3>
 
-              {/* Tag */}
               <Badge
                 variant="outline"
                 className={`text-[10px] font-bold ${
@@ -122,17 +94,12 @@ export default function Collection() {
                 {card.tag}
               </Badge>
 
-              {/* Stats row for unlocked */}
-              {card.unlocked && card.bestGrade && (
+              {card.unlocked && (
                 <div className="flex items-center gap-3 mt-1 text-[11px] font-bold text-[#706C61]">
-                  <span className={`px-2 py-0.5 rounded border ${gradeColor(card.bestGrade)}`}>
-                    {card.bestGrade}
-                  </span>
                   <span>×{card.practiceCount}</span>
                 </div>
               )}
 
-              {/* Locked overlay hint */}
               {!card.unlocked && (
                 <span className="text-[11px] text-[#A09C94] font-medium mt-1">
                   前往對話空間解鎖
@@ -143,7 +110,7 @@ export default function Collection() {
         </div>
       </div>
 
-      {/* ── Detail Overlay ── */}
+      {/* Detail Overlay */}
       {selected && (
         <div
           className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300"
@@ -153,7 +120,6 @@ export default function Collection() {
             className="bg-white rounded-2xl shadow-2xl border border-[#E5E2D9] w-full max-w-lg max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Top visual */}
             <div className="relative p-8 pb-6 flex flex-col items-center gap-4 border-b border-[#E5E2D9]">
               <button
                 onClick={() => setSelected(null)}
@@ -170,16 +136,14 @@ export default function Collection() {
                 {selected.tag}
               </Badge>
 
-              {/* Guide sentence */}
               <p className="text-sm text-[#706C61] italic text-center leading-relaxed mt-1">
                 「{selected.guideSentence}」
               </p>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 divide-x divide-[#E5E2D9] border-b border-[#E5E2D9]">
+            <div className="grid grid-cols-2 divide-x divide-[#E5E2D9] border-b border-[#E5E2D9]">
               {[
-                { icon: Trophy, label: "最佳成績", value: selected.bestGrade ?? "-" },
                 { icon: RotateCcw, label: "練習次數", value: `${selected.practiceCount} 次` },
                 { icon: Clock3, label: "總時長", value: selected.totalDuration ?? "-" },
               ].map((s) => (
@@ -193,47 +157,7 @@ export default function Collection() {
               ))}
             </div>
 
-            {/* Growth chart */}
-            {chartData && chartData.length > 1 && (
-              <div className="p-6 border-b border-[#E5E2D9]">
-                <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  <span className="font-heading text-xs font-bold text-[#3D3831] uppercase tracking-wider">
-                    成長曲線
-                  </span>
-                </div>
-                <div className="h-[140px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData}>
-                      <XAxis
-                        dataKey="label"
-                        tick={{ fontSize: 11, fill: "#A09C94" }}
-                        axisLine={false}
-                        tickLine={false}
-                      />
-                      <YAxis domain={[0, 100]} hide />
-                      <Tooltip
-                        contentStyle={{
-                          background: "#fff",
-                          border: "1px solid #E5E2D9",
-                          borderRadius: 12,
-                          fontSize: 12,
-                        }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="score"
-                        stroke="hsl(var(--primary))"
-                        strokeWidth={2.5}
-                        dot={{ r: 4, fill: "hsl(var(--primary))", stroke: "#fff", strokeWidth: 2 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            )}
-
-            {/* Personal note placeholder */}
+            {/* Personal note */}
             <div className="p-6 border-b border-[#E5E2D9]">
               <div className="flex items-center gap-2 mb-3">
                 <MessageCircle className="w-4 h-4 text-[#A09C94]" />
@@ -246,7 +170,6 @@ export default function Collection() {
               </div>
             </div>
 
-            {/* Action */}
             <div className="p-6">
               <button
                 onClick={() => {

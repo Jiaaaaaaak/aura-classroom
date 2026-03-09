@@ -15,14 +15,12 @@ export interface PracticeRecord {
   title: string;
   duration: string;
   rounds: number;
-  grade: string;
   scenarioId: number;
 }
 
 export interface CollectionCard extends Scenario {
   unlocked: boolean;
   practiceCount: number;
-  bestGrade: string | null;
   totalDuration: string | null;
   records: PracticeRecord[];
 }
@@ -38,14 +36,12 @@ export const allScenarios: Scenario[] = [
 
 // Mock history data with scenarioId linkage
 export const historyItems: PracticeRecord[] = [
-  { id: 1, date: "03/01", weekday: "週六", emoji: "😤", title: "被當眾誤解的憤怒", duration: "15:42", rounds: 12, grade: "A+", scenarioId: 3 },
-  { id: 2, date: "02/27", weekday: "週四", emoji: "📝", title: "考場失利後的自責", duration: "12:08", rounds: 9, grade: "A", scenarioId: 1 },
-  { id: 3, date: "02/25", weekday: "週二", emoji: "👥", title: "分組被落單的窘迫", duration: "18:30", rounds: 14, grade: "B+", scenarioId: 2 },
-  { id: 4, date: "02/20", weekday: "週四", emoji: "🤝", title: "好朋友吵架的糾結", duration: "10:15", rounds: 8, grade: "A+", scenarioId: 4 },
-  { id: 5, date: "02/15", weekday: "週六", emoji: "🌱", title: "面對新環境的焦慮", duration: "14:22", rounds: 11, grade: "B", scenarioId: 5 },
+  { id: 1, date: "03/01", weekday: "週六", emoji: "😤", title: "被當眾誤解的憤怒", duration: "15:42", rounds: 12, scenarioId: 3 },
+  { id: 2, date: "02/27", weekday: "週四", emoji: "📝", title: "考場失利後的自責", duration: "12:08", rounds: 9, scenarioId: 1 },
+  { id: 3, date: "02/25", weekday: "週二", emoji: "👥", title: "分組被落單的窘迫", duration: "18:30", rounds: 14, scenarioId: 2 },
+  { id: 4, date: "02/20", weekday: "週四", emoji: "🤝", title: "好朋友吵架的糾結", duration: "10:15", rounds: 8, scenarioId: 4 },
+  { id: 5, date: "02/15", weekday: "週六", emoji: "🌱", title: "面對新環境的焦慮", duration: "14:22", rounds: 11, scenarioId: 5 },
 ];
-
-const GRADE_ORDER: Record<string, number> = { "A+": 6, "A": 5, "A-": 4, "B+": 3, "B": 2, "B-": 1, "C": 0 };
 
 function parseDuration(d: string): number {
   const [m, s] = d.split(":").map(Number);
@@ -62,16 +58,12 @@ export function getCollectionCards(): CollectionCard[] {
   return allScenarios.map((scenario) => {
     const records = historyItems.filter((h) => h.scenarioId === scenario.id);
     const unlocked = records.length > 0;
-    const bestGrade = unlocked
-      ? records.reduce((best, r) => (GRADE_ORDER[r.grade] ?? 0) > (GRADE_ORDER[best] ?? 0) ? r.grade : best, records[0].grade)
-      : null;
     const totalSec = records.reduce((sum, r) => sum + parseDuration(r.duration), 0);
 
     return {
       ...scenario,
       unlocked,
       practiceCount: records.length,
-      bestGrade,
       totalDuration: unlocked ? formatDuration(totalSec) : null,
       records,
     };
