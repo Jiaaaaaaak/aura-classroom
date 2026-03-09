@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/hooks/use-toast";
 import AppLayout from "@/components/AppLayout";
-import { Activity, Pencil, Save, X, User as UserIcon, Calendar, Trophy, School, ChevronRight } from "lucide-react";
+import { Activity, Pencil, Save, X, User as UserIcon, Calendar, School, ChevronRight, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -49,8 +49,8 @@ export default function Info() {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Sidebar Stats */}
           <div className="flex flex-col gap-6">
-            {/* Stats Card */}
-            <div className="bg-[#3D3831] rounded-2xl shadow-xl p-8 flex flex-col items-center text-center gap-4 relative overflow-hidden">
+            {/* Stats Card - stretch to fill height */}
+            <div className="bg-[#3D3831] rounded-2xl shadow-xl p-8 flex flex-col items-center text-center gap-4 relative overflow-hidden flex-1">
               <div className="absolute top-0 left-0 w-full h-full chalk-dots opacity-10 pointer-events-none" />
               <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mb-2 relative z-10">
                 <Activity className="w-8 h-8" />
@@ -64,18 +64,6 @@ export default function Info() {
                 <p className="text-xs text-secondary font-bold uppercase tracking-wider">Skill Level: Expert</p>
                 <p className="text-[11px] text-white/40 font-medium">您已經超過了 85% 的使用者</p>
               </div>
-            </div>
-
-            {/* Achievement Card */}
-            <div className="bg-white border border-[#E5E2D9] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-               <h3 className="font-heading text-xs font-bold text-[#3D3831] uppercase tracking-widest border-b border-[#E5E2D9] pb-3">成就勳章</h3>
-               <div className="flex flex-wrap gap-3">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-[#FAF9F6] border border-[#E5E2D9] flex items-center justify-center group hover:border-primary transition-colors cursor-help" title="達成 10 次連續 A+">
-                       <Trophy className="w-5 h-5 text-[#A09C94] group-hover:text-primary transition-colors" />
-                    </div>
-                  ))}
-               </div>
             </div>
           </div>
 
@@ -185,7 +173,7 @@ export default function Info() {
             <div className="bg-white border border-[#E5E2D9] rounded-2xl p-8 shadow-sm flex items-center justify-between group cursor-pointer hover:border-primary/30 transition-all">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-[#FAF9F6] rounded-xl flex items-center justify-center">
-                     <Trophy className="w-6 h-6 text-[#A09C94]" />
+                     <Shield className="w-6 h-6 text-[#A09C94]" />
                   </div>
                   <div>
                      <h3 className="font-heading text-[15px] font-bold text-[#3D3831]">帳號安全設定</h3>
