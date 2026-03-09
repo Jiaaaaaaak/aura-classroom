@@ -140,7 +140,7 @@ export default function SoulCards({ scenarios, open, onClose, onStart }: SoulCar
                 transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)",
                 perspective: "800px",
                 zIndex: isSelected ? 20 : 10 - Math.abs(idx - Math.floor(totalCards / 2)),
-                animation: !selectedIdx && !flipping
+                animation: selectedIdx === null && !flipping
                   ? `soulCardFloat${idx} 3s ease-in-out infinite alternate ${idx * 0.3}s`
                   : undefined,
                 pointerEvents: isOther ? "none" : "auto",
