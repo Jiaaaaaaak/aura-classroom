@@ -1,6 +1,5 @@
-import { useRef, useState, useEffect, useCallback } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sparkles } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Sparkles, ArrowLeft } from "lucide-react";
 
 interface Scenario {
   id: number;
@@ -26,142 +25,193 @@ interface SkillTreeMapProps {
   onOpenSoulCards: () => void;
 }
 
+// Warm gradient pairs for competency cards (consistent with SoulCards backs)
+const COMPETENCY_GRADIENTS = [
+  "from-[hsl(12,69%,63%)] to-[hsl(12,69%,50%)]",
+  "from-[hsl(150,25%,55%)] to-[hsl(150,25%,42%)]",
+  "from-[hsl(43,74%,75%)] to-[hsl(43,74%,60%)]",
+  "from-[hsl(200,40%,65%)] to-[hsl(200,40%,50%)]",
+  "from-[hsl(340,40%,65%)] to-[hsl(340,40%,50%)]",
+];
+
 export default function SkillTreeMap({ groups, onSelectScenario, onOpenSoulCards }: SkillTreeMapProps) {
-  const [activeGroupId, setActiveGroupId] = useState(groups[0]?.id ?? "");
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  const [animating, setAnimating] = useState(false);
 
-  const scrollToGroup = useCallback((groupId: string) => {
-    const el = sectionRefs.current[groupId];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActiveGroupId(groupId);
-    }
-  }, []);
+  const handleGroupClick = useCallback((groupId: string) => {
+    if (animating) return;
+    setAnimating(true);
+    setSelectedGroup(groupId);
+    setTimeout(() => setAnimating(false), 500);
+  }, [animating]);
 
-  // Scroll spy
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
+  const handleBack = useCallback(() => {
+    if (animating) return;
+    setAnimating(true);
+    setSelectedGroup(null);
+    setTimeout(() => setAnimating(false), 500);
+  }, [animating]);
 
-    const handleScroll = () => {
-      let closest = groups[0]?.id ?? "";
-      let closestDist = Infinity;
-      for (const g of groups) {
-        const el = sectionRefs.current[g.id];
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          const containerRect = container.getBoundingClientRect();
-          const dist = Math.abs(rect.top - containerRect.top - 40);
-          if (dist < closestDist) {
-            closestDist = dist;
-            closest = g.id;
-          }
-        }
-      }
-      setActiveGroupId(closest);
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, [groups]);
+  const activeGroup = groups.find((g) => g.id === selectedGroup);
 
   return (
-    <div className="h-full flex bg-background animate-in fade-in duration-500">
-      {/* Fixed Left Nav */}
-      <nav className="w-56 shrink-0 border-r border-border bg-card/60 backdrop-blur-sm flex flex-col p-4 gap-2">
-        <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-primary uppercase mb-2 px-2">
-          Core Competencies
-        </span>
-
-        {groups.map((g) => (
+    <div className="h-full flex items-center justify-center bg-background overflow-hidden relative">
+      {/* Level 1: Competency Wheel */}
+      <div
+        className="absolute inset-0 flex items-center justify-center transition-all duration-500"
+        style={{
+          opacity: selectedGroup ? 0 : 1,
+          transform: selectedGroup ? "scale(0.8)" : "scale(1)",
+          pointerEvents: selectedGroup ? "none" : "auto",
+        }}
+      >
+        <div className="relative" style={{ width: 420, height: 420 }}>
+          {/* Center: Soul Cards entry */}
           <button
-            key={g.id}
-            onClick={() => scrollToGroup(g.id)}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200 text-sm font-medium ${
-              activeGroupId === g.id
-                ? "bg-primary/10 text-primary font-bold shadow-sm"
-                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-            }`}
+            onClick={onOpenSoulCards}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-24 h-24 rounded-2xl border-2 border-border/30 bg-card shadow-xl flex flex-col items-center justify-center gap-1 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
           >
-            <span className="text-lg">{g.icon}</span>
-            <span className="truncate">{g.label}</span>
+            <span className="text-3xl relative">
+              🃏
+              <Sparkles className="w-3.5 h-3.5 text-primary absolute -top-1.5 -right-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </span>
+            <span className="text-[10px] font-bold text-primary tracking-wide">心靈牌卡</span>
           </button>
-        ))}
 
-        <div className="border-t border-border my-3" />
+          {/* Competency cards arranged in a circle */}
+          {groups.map((group, idx) => {
+            const angle = (idx / groups.length) * 360 - 90; // start from top
+            const rad = (angle * Math.PI) / 180;
+            const radius = 155;
+            const x = Math.cos(rad) * radius;
+            const y = Math.sin(rad) * radius;
 
-        {/* Soul Cards Entry */}
-        <button
-          onClick={onOpenSoulCards}
-          className="flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all duration-300 text-sm font-bold text-primary hover:bg-primary/10 group relative overflow-hidden"
-        >
-          <span className="text-lg relative">
-            🃏
-            <Sparkles className="w-3 h-3 text-accent absolute -top-1 -right-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </span>
-          <span>心靈牌卡</span>
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
-        </button>
-      </nav>
+            return (
+              <button
+                key={group.id}
+                onClick={() => handleGroupClick(group.id)}
+                className="absolute rounded-2xl border-2 border-border/20 shadow-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:shadow-2xl transition-all duration-300"
+                style={{
+                  width: 120,
+                  height: 140,
+                  left: "50%",
+                  top: "50%",
+                  marginLeft: -60,
+                  marginTop: -70,
+                  transform: `translate(${x}px, ${y}px) scale(1)`,
+                  animation: `wheelCardFloat ${3 + idx * 0.5}s ease-in-out infinite alternate ${idx * 0.4}s`,
+                }}
+              >
+                {/* Gradient background */}
+                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${COMPETENCY_GRADIENTS[idx % COMPETENCY_GRADIENTS.length]} opacity-90`} />
+                {/* Inner border */}
+                <div className="absolute inset-2 rounded-xl border border-border/15" />
+                {/* Content */}
+                <div className="relative z-10 flex flex-col items-center gap-2">
+                  <span className="text-3xl">{group.icon}</span>
+                  <span className="text-xs font-bold tracking-wide text-card" style={{ textShadow: "0 1px 4px hsl(var(--foreground) / 0.3)" }}>
+                    {group.label}
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-card/20 text-card font-medium">
+                    {group.scenarios.length} 情境
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-      {/* Scrollable Content */}
-      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-8 py-8">
-        <div className="max-w-3xl mx-auto space-y-12">
-          {groups.map((group) => (
-            <section
-              key={group.id}
-              ref={(el: HTMLDivElement | null) => { sectionRefs.current[group.id] = el; }}
-              className="scroll-mt-8"
-            >
-              {/* Group Header */}
-              <div className="flex items-center gap-3 mb-5">
+      {/* Level 2: Scenario Cards Fan */}
+      <div
+        className="absolute inset-0 flex flex-col items-center transition-all duration-500"
+        style={{
+          opacity: selectedGroup ? 1 : 0,
+          transform: selectedGroup ? "scale(1)" : "scale(1.1)",
+          pointerEvents: selectedGroup ? "auto" : "none",
+        }}
+      >
+        {activeGroup && (
+          <>
+            {/* Header */}
+            <div className="flex items-center gap-4 mt-8 mb-6">
+              <button
+                onClick={handleBack}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                返回
+              </button>
+              <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-sm"
-                  style={{ background: `hsl(${group.color} / 0.15)` }}
+                  style={{ background: `hsl(${activeGroup.color} / 0.15)` }}
                 >
-                  {group.icon}
+                  {activeGroup.icon}
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-foreground">{group.label}</h3>
-                  <p className="text-xs text-muted-foreground">{group.description}</p>
+                  <h3 className="font-heading text-lg font-bold text-foreground">{activeGroup.label}</h3>
+                  <p className="text-xs text-muted-foreground">{activeGroup.description}</p>
                 </div>
               </div>
+            </div>
 
-              {/* Connector + Scenario Nodes */}
-              <div className="relative ml-5 pl-6 border-l-2 border-border/60 space-y-3">
-                {group.scenarios.map((scenario, idx) => (
-                  <div key={scenario.id} className="relative group">
-                    {/* Connector dot */}
-                    <div
-                      className="absolute -left-[31px] top-4 w-3 h-3 rounded-full border-2 border-border bg-card group-hover:border-primary group-hover:bg-primary/20 transition-all"
-                    />
+            {/* Scenario cards grid/fan */}
+            <div className="flex-1 flex items-center justify-center pb-8">
+              <div className="relative" style={{ width: Math.min(activeGroup.scenarios.length * 170, 700), height: 280 }}>
+                {activeGroup.scenarios.map((scenario, idx) => {
+                  const total = activeGroup.scenarios.length;
+                  const fanSpread = Math.min(total * 18, 60);
+                  const fanStart = -fanSpread / 2;
+                  const angle = total === 1 ? 0 : fanStart + (idx / (total - 1)) * fanSpread;
+                  const rad = (angle * Math.PI) / 180;
+                  const fanRadius = 140;
+                  const x = Math.sin(rad) * fanRadius;
+                  const y = -Math.cos(rad) * fanRadius + fanRadius;
 
-                    {/* Scenario Node Card */}
+                  return (
                     <button
+                      key={scenario.id}
                       onClick={() => onSelectScenario(scenario.id)}
-                      className="w-full text-left p-4 rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm hover:border-primary/40 hover:shadow-md hover:scale-[1.01] transition-all duration-200 flex items-center gap-4"
+                      className="absolute rounded-2xl border-2 border-primary/20 bg-card shadow-lg hover:shadow-xl hover:border-primary/50 transition-all duration-300 flex flex-col items-center justify-center p-4 text-center gap-2 cursor-pointer"
+                      style={{
+                        width: 140,
+                        height: 200,
+                        left: "50%",
+                        bottom: 0,
+                        marginLeft: -70,
+                        transform: `translate(${x}px, ${y}px) rotate(${angle}deg)`,
+                        animation: `scenarioCardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${idx * 0.08}s both`,
+                      }}
                     >
-                      <span className="text-2xl shrink-0">{scenario.emoji}</span>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm text-foreground truncate">
-                          {scenario.title}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                          {scenario.description}
-                        </p>
-                      </div>
-                      <span className="shrink-0 text-[10px] px-2 py-0.5 rounded-full border border-border bg-muted text-muted-foreground">
+                      <span className="text-3xl">{scenario.emoji}</span>
+                      <h4 className="font-heading text-xs font-bold text-foreground leading-tight line-clamp-2">
+                        {scenario.title}
+                      </h4>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full border border-border bg-muted text-muted-foreground">
                         {scenario.tag}
                       </span>
                     </button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
-            </section>
-          ))}
-        </div>
+            </div>
+          </>
+        )}
       </div>
+
+      <style>{`
+        @keyframes wheelCardFloat {
+          0% { transform: translate(var(--tw-translate-x, 0), var(--tw-translate-y, 0)) translateY(0); }
+          100% { transform: translate(var(--tw-translate-x, 0), var(--tw-translate-y, 0)) translateY(-6px); }
+        }
+        @keyframes scenarioCardIn {
+          from {
+            opacity: 0;
+            transform: translate(0, 40px) rotate(0deg) scale(0.8);
+          }
+        }
+      `}</style>
     </div>
   );
 }
