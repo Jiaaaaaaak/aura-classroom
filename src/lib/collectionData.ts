@@ -31,14 +31,25 @@ export const COMPETENCY_GROUPS: CompetencyGroup[] = [
     ],
   },
   {
+    id: "self-management",
+    label: "自我管理",
+    icon: "🧘",
+    color: "hsl(200, 40%, 65%)",
+    description: "學習調節情緒、設定目標與自我激勵的能力。",
+    scenarios: [
+      { id: 3, title: "考試焦慮", tag: "自我管理", emoji: "😰", description: "學生因為即將到來的考試感到極度焦慮，無法專心上課。", guideSentence: "引導學生學習情緒調節的策略。" },
+      { id: 4, title: "拖延迴圈", tag: "自我管理", emoji: "⏰", description: "學生總是拖延作業到最後一刻，陷入焦慮與自責的循環。", guideSentence: "幫助學生建立自我管理的習慣。" },
+    ],
+  },
+  {
     id: "social-awareness",
     label: "社會覺察",
     icon: "🌍",
     color: "hsl(150, 25%, 55%)",
     description: "培養同理心與對他人感受的敏感度。",
     scenarios: [
-      { id: 3, title: "被排擠的新生", tag: "社會覺察", emoji: "🧑‍🎓", description: "新轉學生被班上同學排擠，午餐時總是一個人。", guideSentence: "引導學生思考他人的感受。" },
-      { id: 4, title: "無聲的霸凌", tag: "社會覺察", emoji: "🤐", description: "學生透過網路對同學進行言語霸凌，受害者不敢求助。", guideSentence: "幫助學生認識霸凌的影響。" },
+      { id: 5, title: "被排擠的新生", tag: "社會覺察", emoji: "🧑‍🎓", description: "新轉學生被班上同學排擠，午餐時總是一個人。", guideSentence: "引導學生思考他人的感受。" },
+      { id: 6, title: "無聲的霸凌", tag: "社會覺察", emoji: "🤐", description: "學生透過網路對同學進行言語霸凌，受害者不敢求助。", guideSentence: "幫助學生認識霸凌的影響。" },
     ],
   },
   {
