@@ -248,13 +248,20 @@ export default function Chatroom() {
           )}
 
           {/* 2. DETAIL VIEW */}
-          {!isStarted && selectedScenarioId && (
-            <ScenarioDetail 
-              scenario={allScenarios.find(s => s.id === selectedScenarioId)!} 
-              onClose={handleCloseDetail} 
-              onStart={handleStart} 
-            />
-          )}
+          {!isStarted && selectedScenarioId && (() => {
+            const found = allScenarios.find(s => s.id === selectedScenarioId);
+            if (!found) {
+              // ID not in allScenarios (e.g. overview mock data) — reset selection
+              return null;
+            }
+            return (
+              <ScenarioDetail 
+                scenario={found} 
+                onClose={handleCloseDetail} 
+                onStart={handleStart} 
+              />
+            );
+          })()}
 
           {/* 2.5 STUDENT PROFILE SELECTION */}
           {!isStarted && pendingScenario && (
