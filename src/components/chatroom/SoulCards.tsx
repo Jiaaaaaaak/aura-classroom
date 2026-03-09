@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
+import { sfxShuffle, sfxFlip, sfxReveal, sfxClick } from "@/lib/soulCardSfx";
 
 interface Scenario {
   id: number;
@@ -72,21 +73,25 @@ export default function SoulCards({ scenarios, open, onClose, onStart }: SoulCar
     setSelectedIdx(null);
     setShuffleTick(0);
     vibrate(15);
+    sfxShuffle();
 
     setTimeout(() => {
       const randomIdx = Math.floor(Math.random() * Math.min(CARD_COUNT, scenarios.length));
       setSelectedIdx(randomIdx);
       setGameState("revealing");
       vibrate([20, 40, 20]);
+      sfxFlip();
 
       setTimeout(() => {
         setGameState("revealed");
         vibrate([15, 30, 15, 30, 15]);
+        sfxReveal();
       }, REVEAL_DURATION);
     }, SHUFFLE_DURATION);
   }, [scenarios.length]);
 
   const handleRedraw = useCallback(() => {
+    sfxClick();
     setGameState("idle");
     setSelectedIdx(null);
     setTimeout(() => startDraw(), 200);
