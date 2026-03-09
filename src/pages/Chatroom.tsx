@@ -293,7 +293,13 @@ export default function Chatroom() {
         onClose={() => setSoulCardsOpen(false)}
       onStart={(scenario: any) => {
           setSoulCardsOpen(false);
-          handleStart(scenario);
+          // Skip profile select & voice prompt — go directly into chat
+          setActiveScenario(scenario);
+          setStudentProfile({ personality: "introverted", grade: "junior-2" });
+          setVoiceEnabled(false);
+          setIsStarted(true);
+          setIsPaused(false);
+          setElapsedSeconds(0);
         }}
       />
 
