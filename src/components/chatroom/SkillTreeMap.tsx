@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Sparkles } from "lucide-react";
+import { Sparkles, LayoutGrid, List } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ScenarioOverview from "./ScenarioOverview";
 
 interface Scenario {
   id: number;
@@ -34,49 +35,111 @@ const COMPETENCY_COLORS = [
   "hsl(340, 40%, 65%)",
 ];
 
+type ViewMode = "grid" | "overview";
+
 export default function SkillTreeMap({ groups, onSelectScenario, onOpenSoulCards }: SkillTreeMapProps) {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
   const filteredScenarios = activeFilter
     ? groups.find((g) => g.id === activeFilter)?.scenarios ?? []
     : groups.flatMap((g) => g.scenarios);
 
+  if (viewMode === "overview") {
+    return (
+      <div className="h-full flex flex-col bg-background overflow-hidden">
+        {/* Tab bar */}
+        <div className="shrink-0 px-6 pt-5 pb-3 flex items-center justify-between">
+          <div className="flex items-center gap-1 bg-muted rounded-xl p-1">
+            <button
+              onClick={() => setViewMode("grid")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-muted-foreground hover:bg-background/60 transition-all"
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+              情境選擇
+            </button>
+            <button
+              onClick={() => setViewMode("overview")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-background text-foreground shadow-sm transition-all"
+            >
+              <List className="w-3.5 h-3.5" />
+              情境總覽
+            </button>
+          </div>
+
+          <button
+            onClick={onOpenSoulCards}
+            className="shrink-0 ml-4 flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
+          >
+            <span className="text-lg">🃏</span>
+            <span className="text-xs font-bold tracking-wide">心靈牌卡</span>
+            <Sparkles className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-hidden">
+          <ScenarioOverview onSelectScenario={onSelectScenario} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-full flex flex-col bg-background overflow-hidden">
-      {/* Top: Filter tabs + Soul Cards button */}
+      {/* Top: Tab switch + Filter tabs + Soul Cards button */}
       <div className="shrink-0 px-6 pt-5 pb-3 flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          {/* Competency filter chips */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <button
-              onClick={() => setActiveFilter(null)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
-                !activeFilter
-                  ? "bg-foreground text-background shadow-md"
-                  : "border border-border text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              全部
-            </button>
-            {groups.map((group, idx) => (
+          <div className="flex items-center gap-4">
+            {/* View mode toggle */}
+            <div className="flex items-center gap-1 bg-muted rounded-xl p-1">
               <button
-                key={group.id}
-                onClick={() => setActiveFilter(activeFilter === group.id ? null : group.id)}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-1.5 ${
-                  activeFilter === group.id
-                    ? "text-card shadow-md"
+                onClick={() => setViewMode("grid")}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-background text-foreground shadow-sm transition-all"
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                情境選擇
+              </button>
+              <button
+                onClick={() => setViewMode("overview")}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-muted-foreground hover:bg-background/60 transition-all"
+              >
+                <List className="w-3.5 h-3.5" />
+                情境總覽
+              </button>
+            </div>
+
+            {/* Competency filter chips */}
+            <div className="hidden md:flex items-center gap-2 flex-wrap">
+              <button
+                onClick={() => setActiveFilter(null)}
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
+                  !activeFilter
+                    ? "bg-foreground text-background shadow-md"
                     : "border border-border text-muted-foreground hover:bg-muted"
                 }`}
-                style={
-                  activeFilter === group.id
-                    ? { backgroundColor: COMPETENCY_COLORS[idx % COMPETENCY_COLORS.length] }
-                    : undefined
-                }
               >
-                <span className="text-sm">{group.icon}</span>
-                {group.label}
+                全部
               </button>
-            ))}
+              {groups.map((group, idx) => (
+                <button
+                  key={group.id}
+                  onClick={() => setActiveFilter(activeFilter === group.id ? null : group.id)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-1.5 ${
+                    activeFilter === group.id
+                      ? "text-card shadow-md"
+                      : "border border-border text-muted-foreground hover:bg-muted"
+                  }`}
+                  style={
+                    activeFilter === group.id
+                      ? { backgroundColor: COMPETENCY_COLORS[idx % COMPETENCY_COLORS.length] }
+                      : undefined
+                  }
+                >
+                  <span className="text-sm">{group.icon}</span>
+                  {group.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Soul Cards button */}
@@ -88,6 +151,39 @@ export default function SkillTreeMap({ groups, onSelectScenario, onOpenSoulCards
             <span className="text-xs font-bold tracking-wide">心靈牌卡</span>
             <Sparkles className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
           </button>
+        </div>
+
+        {/* Mobile filter chips */}
+        <div className="flex md:hidden items-center gap-2 flex-wrap">
+          <button
+            onClick={() => setActiveFilter(null)}
+            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
+              !activeFilter
+                ? "bg-foreground text-background shadow-md"
+                : "border border-border text-muted-foreground hover:bg-muted"
+            }`}
+          >
+            全部
+          </button>
+          {groups.map((group, idx) => (
+            <button
+              key={group.id}
+              onClick={() => setActiveFilter(activeFilter === group.id ? null : group.id)}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-1.5 ${
+                activeFilter === group.id
+                  ? "text-card shadow-md"
+                  : "border border-border text-muted-foreground hover:bg-muted"
+              }`}
+              style={
+                activeFilter === group.id
+                  ? { backgroundColor: COMPETENCY_COLORS[idx % COMPETENCY_COLORS.length] }
+                  : undefined
+              }
+            >
+              <span className="text-sm">{group.icon}</span>
+              {group.label}
+            </button>
+          ))}
         </div>
 
         {/* Active group description */}
