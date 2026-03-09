@@ -334,7 +334,7 @@ export default function Chatroom() {
         scenarios={allScenarios}
         open={soulCardsOpen}
         onClose={() => setSoulCardsOpen(false)}
-        onStart={(scenario) => {
+      onStart={(scenario: any) => {
           setSoulCardsOpen(false);
           handleStart(scenario);
         }}

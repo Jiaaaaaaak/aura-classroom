@@ -111,7 +111,7 @@ export default function SkillTreeMap({ groups, onSelectScenario, onOpenSoulCards
           {groups.map((group) => (
             <section
               key={group.id}
-              ref={(el) => { sectionRefs.current[group.id] = el; }}
+              ref={(el: HTMLDivElement | null) => { sectionRefs.current[group.id] = el; }}
               className="scroll-mt-8"
             >
               {/* Group Header */}
