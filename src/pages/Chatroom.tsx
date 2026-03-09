@@ -238,7 +238,7 @@ export default function Chatroom() {
             </div>
           )}
 
-          {/* 1. SKILL TREE MAP VIEW */}
+          {/* 1. SKILL TREE MAP / OVERVIEW VIEW */}
           {!isStarted && !pendingScenario && !selectedScenarioId && (
             <SkillTreeMap
               groups={COMPETENCY_GROUPS}
