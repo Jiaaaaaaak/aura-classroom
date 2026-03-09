@@ -4,6 +4,7 @@ import {
   MessageCircle,
   Radar,
   Clock3,
+  BookOpen,
   User,
   LogOut,
   ChevronRight,
