@@ -16,7 +16,6 @@ const navItems = [
   { label: "首頁 Home", icon: House, path: "/home" },
   { label: "對話練習", icon: MessageCircle, path: "/chatroom" },
   { label: "歷史紀錄", icon: Clock3, path: "/history" },
-  { label: "心靈圖鑑", icon: BookOpen, path: "/collection" },
   { label: "個人帳號", icon: User, path: "/info" },
 ];
 
