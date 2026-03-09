@@ -91,6 +91,7 @@ export default function SoulCards({ scenarios, open, onClose, onStart }: SoulCar
   }, [scenarios.length]);
 
   const handleRedraw = useCallback(() => {
+    sfxClick();
     setGameState("idle");
     setSelectedIdx(null);
     setTimeout(() => startDraw(), 200);
