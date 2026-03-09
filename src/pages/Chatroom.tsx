@@ -359,6 +359,8 @@ export default function Chatroom() {
               onEnd={handleEnd}
               onEmotionChange={(emo) => setStudentEmotion(emo as any)}
               voiceEnabled={voiceEnabled}
+              personalityId={studentProfile?.personality}
+              gradeId={studentProfile?.grade}
             />
           )}
         </div>
