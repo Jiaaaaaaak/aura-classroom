@@ -154,38 +154,133 @@ export default function SoulCards({ scenarios, open, onClose, onStart }: SoulCar
         style={{ width: 320, height: 420 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Glow burst on reveal */}
+        {/* ── Multi-layer reveal VFX ── */}
         {(gameState === "revealing" || gameState === "revealed") && (
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{
-              width: gameState === "revealed" ? 500 : 0,
-              height: gameState === "revealed" ? 500 : 0,
-              background: "radial-gradient(circle, hsl(43 74% 75% / 0.35) 0%, transparent 70%)",
-              transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
-              pointerEvents: "none",
-            }}
-          />
+          <>
+            {/* Layer 1: Warm radial glow burst */}
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
+              style={{
+                width: gameState === "revealed" ? 600 : 20,
+                height: gameState === "revealed" ? 600 : 20,
+                background: "radial-gradient(circle, hsl(43 74% 75% / 0.4) 0%, hsl(12 69% 63% / 0.15) 40%, transparent 70%)",
+                transition: "all 1.4s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+            />
+            {/* Layer 2: Secondary pulse ring */}
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
+              style={{
+                width: gameState === "revealed" ? 400 : 0,
+                height: gameState === "revealed" ? 400 : 0,
+                border: "2px solid hsl(43 74% 75% / 0.3)",
+                transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s",
+                opacity: gameState === "revealed" ? 0 : 1,
+              }}
+            />
+            {/* Layer 3: Inner bright flash */}
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
+              style={{
+                width: 200,
+                height: 200,
+                background: "radial-gradient(circle, hsl(43 90% 88% / 0.6) 0%, transparent 60%)",
+                opacity: gameState === "revealing" ? 1 : 0,
+                transform: `translate(-50%, -50%) scale(${gameState === "revealing" ? 1.5 : 0})`,
+                transition: "all 0.8s ease-out",
+              }}
+            />
+          </>
         )}
 
-        {/* Sparkle particles on reveal */}
+        {/* ── Golden burst particles ── */}
         {gameState === "revealed" && (
           <>
-            {Array.from({ length: 12 }).map((_, i) => {
-              const angle = (i / 12) * 360;
-              const distance = 80 + Math.random() * 60;
-              const size = 3 + Math.random() * 4;
+            {/* Ring 1: Large golden orbs – slow, far */}
+            {Array.from({ length: 16 }).map((_, i) => {
+              const angle = (i / 16) * 360 + (i % 2 === 0 ? 8 : 0);
+              const distance = 120 + Math.sin(i * 1.7) * 40;
+              const size = 5 + Math.sin(i * 2.3) * 3;
+              const delay = 0.05 + i * 0.04;
+              const hue = i % 4 === 0 ? "43, 85%, 72%" : i % 4 === 1 ? "35, 90%, 65%" : i % 4 === 2 ? "50, 80%, 78%" : "28, 75%, 60%";
               return (
                 <div
-                  key={i}
-                  className="absolute left-1/2 top-1/2 rounded-full"
+                  key={`gold-${i}`}
+                  className="absolute left-1/2 top-1/2 rounded-full pointer-events-none"
                   style={{
                     width: size,
                     height: size,
-                    backgroundColor: i % 3 === 0 ? "hsl(43, 74%, 75%)" : i % 3 === 1 ? "hsl(12, 69%, 63%)" : "hsl(var(--primary))",
-                    transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-${distance}px)`,
-                    opacity: 0,
-                    animation: `sparkleOut 1s ease-out ${0.1 + i * 0.05}s forwards`,
+                    backgroundColor: `hsl(${hue})`,
+                    boxShadow: `0 0 ${size * 2}px hsl(${hue} / 0.8), 0 0 ${size * 4}px hsl(${hue} / 0.3)`,
+                    animation: `particleBurst ${1.2 + Math.sin(i) * 0.3}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s forwards`,
+                    "--burst-angle": `${angle}deg`,
+                    "--burst-distance": `${distance}px`,
+                  } as React.CSSProperties}
+                />
+              );
+            })}
+
+            {/* Ring 2: Tiny warm sparkles – fast, close */}
+            {Array.from({ length: 20 }).map((_, i) => {
+              const angle = (i / 20) * 360 + 15;
+              const distance = 50 + Math.cos(i * 3.1) * 30;
+              const size = 2 + Math.random() * 2;
+              const delay = i * 0.025;
+              const colors = ["43, 74%, 75%", "12, 69%, 63%", "30, 80%, 68%", "55, 70%, 70%"];
+              const color = colors[i % colors.length];
+              return (
+                <div
+                  key={`spark-${i}`}
+                  className="absolute left-1/2 top-1/2 rounded-full pointer-events-none"
+                  style={{
+                    width: size,
+                    height: size,
+                    backgroundColor: `hsl(${color})`,
+                    boxShadow: `0 0 ${size * 3}px hsl(${color} / 0.6)`,
+                    animation: `particleBurst ${0.8 + Math.sin(i * 2) * 0.2}s ease-out ${delay}s forwards`,
+                    "--burst-angle": `${angle}deg`,
+                    "--burst-distance": `${distance}px`,
+                  } as React.CSSProperties}
+                />
+              );
+            })}
+
+            {/* Ring 3: Streaking trails */}
+            {Array.from({ length: 8 }).map((_, i) => {
+              const angle = (i / 8) * 360 + 22;
+              const distance = 140 + i * 10;
+              const delay = 0.1 + i * 0.06;
+              return (
+                <div
+                  key={`trail-${i}`}
+                  className="absolute left-1/2 top-1/2 rounded-full pointer-events-none"
+                  style={{
+                    width: 2,
+                    height: 12,
+                    background: "linear-gradient(to bottom, hsl(43, 90%, 80%), transparent)",
+                    animation: `particleBurst 1.5s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s forwards`,
+                    "--burst-angle": `${angle}deg`,
+                    "--burst-distance": `${distance}px`,
+                  } as React.CSSProperties}
+                />
+              );
+            })}
+
+            {/* Floating shimmer dots (persist) */}
+            {Array.from({ length: 6 }).map((_, i) => {
+              const x = -60 + Math.sin(i * 1.8) * 120;
+              const y = -80 + Math.cos(i * 2.2) * 100;
+              return (
+                <div
+                  key={`shimmer-${i}`}
+                  className="absolute left-1/2 top-1/2 rounded-full pointer-events-none"
+                  style={{
+                    width: 3,
+                    height: 3,
+                    backgroundColor: "hsl(43, 85%, 78%)",
+                    boxShadow: "0 0 8px hsl(43, 85%, 78% / 0.6)",
+                    transform: `translate(${x}px, ${y}px)`,
+                    animation: `shimmerFloat 2.5s ease-in-out ${i * 0.4}s infinite alternate`,
                   }}
                 />
               );
