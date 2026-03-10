@@ -326,26 +326,128 @@ export default function Login() {
       </Dialog>
 
       {/* Forgot Password Dialog */}
-      <Dialog open={forgotOpen} onOpenChange={setForgotOpen}>
+      <Dialog open={forgotOpen} onOpenChange={(open) => { if (!open) resetForgotFlow(); else setForgotOpen(true); }}>
         <DialogContent className="sm:max-w-md border-none p-0 overflow-hidden rounded-2xl shadow-2xl">
-          <div className="bg-[#3D3831] p-6 text-white">
-             <h2 className="font-heading text-xl font-bold">重設密碼</h2>
-          </div>
-          <form onSubmit={handleForgotPassword} className="p-8 space-y-4">
-            <p className="text-sm text-[#706C61] leading-relaxed font-medium">
-              請輸入您的電子信箱，我們將發送密碼重設連結給您。
-            </p>
-            <Input
-              type="email"
-              placeholder="您的電子信箱"
-              value={forgotEmail}
-              onChange={(e) => setForgotEmail(e.target.value)}
-              className="bg-[#FAF9F6] border-[#E5E2D9] rounded-xl h-12"
-            />
-            <DialogFooter className="pt-2">
-              <Button type="submit" className="w-full h-12 bg-[#3D3831] text-white font-heading font-bold rounded-xl">發送驗證信件</Button>
-            </DialogFooter>
-          </form>
+          {/* Step 1: Enter email */}
+          {forgotStep === "email" && (
+            <>
+              <div className="bg-[#3D3831] p-6 text-white flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h2 className="font-heading text-xl font-bold">重設密碼</h2>
+                  <p className="text-xs text-white/60 font-medium">Reset your password</p>
+                </div>
+              </div>
+              <form onSubmit={handleForgotPassword} className="p-8 space-y-4">
+                <p className="text-sm text-[#706C61] leading-relaxed font-medium">
+                  請輸入您的電子信箱，我們將發送 6 位數驗證碼給您。
+                </p>
+                <Input
+                  type="email"
+                  placeholder="您的電子信箱"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  disabled={isSendingCode}
+                  className="bg-[#FAF9F6] border-[#E5E2D9] rounded-xl h-12"
+                />
+                <DialogFooter className="pt-2">
+                  <Button
+                    type="submit"
+                    disabled={isSendingCode}
+                    className="w-full h-12 bg-[#3D3831] text-white font-heading font-bold rounded-xl hover:bg-[#2a2723]"
+                  >
+                    {isSendingCode ? (
+                      <><Loader2 className="w-4 h-4 animate-spin mr-2" />發送中...</>
+                    ) : (
+                      "發送驗證碼"
+                    )}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </>
+          )}
+
+          {/* Step 2: Enter verification code */}
+          {forgotStep === "verify" && (
+            <>
+              <div className="bg-[#3D3831] p-6 text-white flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h2 className="font-heading text-xl font-bold">輸入驗證碼</h2>
+                  <p className="text-xs text-white/60 font-medium">Enter verification code</p>
+                </div>
+              </div>
+              <div className="p-8 space-y-6">
+                <div className="text-center space-y-1">
+                  <p className="text-sm text-[#706C61] font-medium">
+                    驗證碼已發送至
+                  </p>
+                  <p className="text-sm font-bold text-[#3D3831]">{forgotEmail}</p>
+                </div>
+                <div className="flex justify-center gap-2.5">
+                  {verifyCode.map((digit, i) => (
+                    <input
+                      key={i}
+                      id={`code-${i}`}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleCodeInput(i, e.target.value)}
+                      onKeyDown={(e) => handleCodeKeyDown(i, e)}
+                      className="w-11 h-13 text-center text-xl font-heading font-bold text-[#3D3831] border-2 border-[#E5E2D9] rounded-xl bg-[#FAF9F6] focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white outline-none transition-all"
+                    />
+                  ))}
+                </div>
+                <div className="flex flex-col gap-3">
+                  <Button
+                    onClick={handleVerifyCode}
+                    disabled={isVerifying || verifyCode.join("").length < 6}
+                    className="w-full h-12 bg-primary text-white font-heading font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-[#C8694F]"
+                  >
+                    {isVerifying ? (
+                      <><Loader2 className="w-4 h-4 animate-spin mr-2" />驗證中...</>
+                    ) : (
+                      "確認驗證"
+                    )}
+                  </Button>
+                  <button
+                    type="button"
+                    onClick={() => { setForgotStep("email"); setVerifyCode(["", "", "", "", "", ""]); }}
+                    className="flex items-center justify-center gap-1.5 text-[12px] text-[#706C61] font-bold hover:text-[#3D3831] transition-colors"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    重新輸入信箱
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Step 3: Success */}
+          {forgotStep === "success" && (
+            <div className="p-10 flex flex-col items-center gap-5 text-center animate-in fade-in zoom-in-95 duration-300">
+              <div className="w-16 h-16 bg-[#81B29A]/15 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="w-8 h-8 text-[#81B29A]" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-heading text-xl font-bold text-[#3D3831]">驗證成功！</h3>
+                <p className="text-sm text-[#706C61] font-medium leading-relaxed">
+                  密碼重設連結已發送至您的信箱，<br />請查收並完成密碼變更。
+                </p>
+              </div>
+              <Button
+                onClick={resetForgotFlow}
+                className="w-full h-12 bg-[#3D3831] text-white font-heading font-bold rounded-xl hover:bg-[#2a2723] mt-2"
+              >
+                返回登入
+              </Button>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
