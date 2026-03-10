@@ -53,7 +53,7 @@ export default function Info() {
             <div className="bg-[#3D3831] rounded-2xl shadow-xl p-6 flex flex-col items-center text-center gap-3 relative overflow-hidden flex-1">
               <div className="absolute top-0 left-0 w-full h-full chalk-dots opacity-10 pointer-events-none" />
               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mb-1 relative z-10">
-                <Activity className="w-8 h-8" />
+                <Activity className="w-6 h-6" />
               </div>
               <div className="relative z-10">
                 <p className="text-xs text-white/50 font-bold uppercase tracking-widest mb-1">Total Sessions</p>
