@@ -34,7 +34,7 @@ export default function Info() {
 
   return (
     <AppLayout>
-      <div className="p-8 md:p-12 max-w-5xl mx-auto flex flex-col gap-10 min-h-full animate-in fade-in duration-500">
+      <div className="p-6 md:p-8 max-w-5xl mx-auto flex flex-col gap-6 min-h-full animate-in fade-in duration-500">
         {/* Header */}
         <div className="flex items-center justify-between pl-12 lg:pl-0">
           <div className="flex flex-col gap-1">

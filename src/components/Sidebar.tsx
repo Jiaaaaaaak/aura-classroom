@@ -178,7 +178,7 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
       )}
 
       {/* User profile + logout */}
-      <div className="px-6 pt-5 pb-4 border-t border-white/5">
+      <div className="px-6 pt-3 pb-6 border-t border-white/5 mt-auto">
         <div className="flex items-center gap-3">
           <div
             className="w-9 h-9 rounded-full bg-[#3D3831] border border-white/10 flex items-center justify-center shrink-0 hover:scale-105 transition-transform cursor-pointer"
