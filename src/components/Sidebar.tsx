@@ -47,6 +47,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
+  const [logoutOpen, setLogoutOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
