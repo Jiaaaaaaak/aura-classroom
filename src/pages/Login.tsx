@@ -82,14 +82,55 @@ export default function Login() {
     }
   };
 
-  const handleForgotPassword = (e: React.FormEvent) => {
+  const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!forgotEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(forgotEmail)) {
       toast({ title: "錯誤", description: "請輸入有效的電子信箱", variant: "destructive" });
       return;
     }
-    toast({ title: "已發送", description: "密碼重設信件已發送至您的信箱" });
+    setIsSendingCode(true);
+    await new Promise((r) => setTimeout(r, 1200));
+    setIsSendingCode(false);
+    setForgotStep("verify");
+    toast({ title: "已發送", description: "驗證碼已發送至您的信箱" });
+  };
+
+  const handleVerifyCode = async () => {
+    const code = verifyCode.join("");
+    if (code.length < 6) {
+      toast({ title: "錯誤", description: "請輸入完整的 6 位驗證碼", variant: "destructive" });
+      return;
+    }
+    setIsVerifying(true);
+    await new Promise((r) => setTimeout(r, 1000));
+    setIsVerifying(false);
+    setForgotStep("success");
+  };
+
+  const handleCodeInput = (index: number, value: string) => {
+    if (value.length > 1) value = value.slice(-1);
+    if (!/^\d*$/.test(value)) return;
+    const newCode = [...verifyCode];
+    newCode[index] = value;
+    setVerifyCode(newCode);
+    if (value && index < 5) {
+      const next = document.getElementById(`code-${index + 1}`);
+      next?.focus();
+    }
+  };
+
+  const handleCodeKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && !verifyCode[index] && index > 0) {
+      const prev = document.getElementById(`code-${index - 1}`);
+      prev?.focus();
+    }
+  };
+
+  const resetForgotFlow = () => {
     setForgotOpen(false);
+    setForgotStep("email");
+    setForgotEmail("");
+    setVerifyCode(["", "", "", "", "", ""]);
   };
 
   return (
