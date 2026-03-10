@@ -1,4 +1,15 @@
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   House,
   MessageCircle,
@@ -36,6 +47,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
+  const [logoutOpen, setLogoutOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -182,7 +194,7 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
             </span>
           </div>
           <button
-            onClick={() => handleNav("/login")}
+            onClick={() => setLogoutOpen(true)}
             className="p-1.5 rounded-md text-[#706C61] hover:text-destructive hover:bg-white/5 transition-all shrink-0"
             title="登出系統"
           >
@@ -190,6 +202,29 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
           </button>
         </div>
       </div>
+
+      {/* Logout Confirmation */}
+      <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
+        <AlertDialogContent className="sm:max-w-sm rounded-2xl border-none shadow-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-heading text-lg text-[#3D3831]">確定要登出嗎？</AlertDialogTitle>
+            <AlertDialogDescription className="text-sm text-[#706C61]">
+              登出後將返回登入頁面，您的練習進度已自動儲存。
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-2">
+            <AlertDialogCancel className="rounded-xl border-[#E5E2D9] text-[#706C61] font-heading font-bold text-sm hover:bg-[#FAF9F6]">
+              取消
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => handleNav("/login")}
+              className="rounded-xl bg-destructive text-white font-heading font-bold text-sm hover:bg-destructive/90"
+            >
+              確定登出
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
