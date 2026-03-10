@@ -50,7 +50,7 @@ export default function Info() {
           {/* Sidebar Stats */}
           <div className="flex flex-col gap-6">
             {/* Stats Card - stretch to fill height */}
-            <div className="bg-[#3D3831] rounded-2xl shadow-xl p-8 flex flex-col items-center text-center gap-4 relative overflow-hidden flex-1">
+            <div className="bg-[#3D3831] rounded-2xl shadow-xl p-6 flex flex-col items-center text-center gap-3 relative overflow-hidden flex-1">
               <div className="absolute top-0 left-0 w-full h-full chalk-dots opacity-10 pointer-events-none" />
               <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mb-2 relative z-10">
                 <Activity className="w-8 h-8" />
