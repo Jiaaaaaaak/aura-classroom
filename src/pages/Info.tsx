@@ -46,7 +46,7 @@ export default function Info() {
           </Badge>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {/* Sidebar Stats */}
           <div className="flex flex-col gap-6">
             {/* Stats Card - stretch to fill height */}
