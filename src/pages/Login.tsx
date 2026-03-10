@@ -144,7 +144,7 @@ export default function Login() {
         }`}
       >
         {/* Brand area */}
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-1">
           <img src="/img/logo/SELf_corner_Logo_transparent.png" alt="SELf-corner" className="w-16 h-16 object-contain" />
           <h1 className="font-heading text-2xl font-bold text-[#3D3831] tracking-tight">
             SELf-corner
