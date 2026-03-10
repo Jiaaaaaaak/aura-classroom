@@ -45,21 +45,15 @@ export default function StudentProfileSelect({ onConfirm, onBack }: StudentProfi
           <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-primary uppercase">
             Student Profile
           </span>
-          <h3 className="font-heading text-2xl font-bold text-[#3D3831]">
-            設定虛擬學生角色
-          </h3>
-          <p className="text-sm text-[#706C61] mt-1">
-            選擇學生的個性特質與年級，打造更貼近真實的對話情境
-          </p>
+          <h3 className="font-heading text-2xl font-bold text-[#3D3831]">虛擬學生設定</h3>
+          <p className="text-sm text-[#706C61] mt-1">選擇學生的個性特質與年級，打造更貼近真實的對話情境</p>
         </div>
 
         {/* Personality Traits */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" />
-            <h4 className="font-heading text-sm font-bold text-[#3D3831] tracking-wide">
-              個性特質
-            </h4>
+            <h4 className="font-heading text-sm font-bold text-[#3D3831] tracking-wide">個性特質</h4>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
             {PERSONALITY_TRAITS.map((trait) => (
@@ -73,14 +67,14 @@ export default function StudentProfileSelect({ onConfirm, onBack }: StudentProfi
                 }`}
               >
                 <span className="text-2xl">{trait.emoji}</span>
-                <span className={`text-xs font-bold leading-tight ${
-                  selectedPersonality === trait.id ? "text-primary" : "text-[#3D3831]"
-                }`}>
+                <span
+                  className={`text-xs font-bold leading-tight ${
+                    selectedPersonality === trait.id ? "text-primary" : "text-[#3D3831]"
+                  }`}
+                >
                   {trait.label}
                 </span>
-                <span className="text-[10px] text-[#A09C94] leading-snug hidden md:block">
-                  {trait.desc}
-                </span>
+                <span className="text-[10px] text-[#A09C94] leading-snug hidden md:block">{trait.desc}</span>
                 {selectedPersonality === trait.id && (
                   <div className="absolute -top-1 -right-1 w-5 h-5 bg-primary rounded-full flex items-center justify-center shadow-sm animate-in zoom-in duration-200">
                     <span className="text-white text-[10px] font-bold">✓</span>
@@ -95,9 +89,7 @@ export default function StudentProfileSelect({ onConfirm, onBack }: StudentProfi
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-primary" />
-            <h4 className="font-heading text-sm font-bold text-[#3D3831] tracking-wide">
-              年級
-            </h4>
+            <h4 className="font-heading text-sm font-bold text-[#3D3831] tracking-wide">年級</h4>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {GRADE_LEVELS.map((grade) => (
@@ -111,9 +103,7 @@ export default function StudentProfileSelect({ onConfirm, onBack }: StudentProfi
                 }`}
               >
                 <span className="text-3xl">{grade.emoji}</span>
-                <span className={`text-sm font-bold ${
-                  selectedGrade === grade.id ? "text-primary" : "text-[#3D3831]"
-                }`}>
+                <span className={`text-sm font-bold ${selectedGrade === grade.id ? "text-primary" : "text-[#3D3831]"}`}>
                   {grade.label}
                 </span>
                 <span className="text-xs text-[#A09C94]">{grade.desc}</span>
