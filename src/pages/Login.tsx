@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-import { Eye, EyeOff, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2, AlertCircle, CheckCircle2, ArrowLeft, ShieldCheck } from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
