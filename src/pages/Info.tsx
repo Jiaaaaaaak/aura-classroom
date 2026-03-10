@@ -71,7 +71,7 @@ export default function Info() {
           <div className="md:col-span-2 flex flex-col gap-4">
             <div className="bg-white border border-[#E5E2D9] rounded-2xl shadow-sm overflow-hidden">
               {/* Profile Top Banner */}
-              <div className="h-24 bg-[#FAF9F6] border-b border-[#E5E2D9] relative">
+              <div className="h-20 bg-[#FAF9F6] border-b border-[#E5E2D9] relative">
                  <div className="absolute -bottom-12 left-8">
                     <div className="relative group">
                        <Avatar className="h-24 w-24 border-4 border-white shadow-xl bg-white">
