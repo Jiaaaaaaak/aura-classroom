@@ -68,7 +68,7 @@ export default function Info() {
           </div>
 
           {/* Main Profile Form */}
-          <div className="md:col-span-2 flex flex-col gap-6">
+          <div className="md:col-span-2 flex flex-col gap-4">
             <div className="bg-white border border-[#E5E2D9] rounded-2xl shadow-sm overflow-hidden">
               {/* Profile Top Banner */}
               <div className="h-24 bg-[#FAF9F6] border-b border-[#E5E2D9] relative">
