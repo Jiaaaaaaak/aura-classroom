@@ -110,7 +110,7 @@ export default function Info() {
               </div>
 
               {/* Form Content */}
-              <div className="pt-16 pb-10 px-10">
+              <div className="pt-14 pb-6 px-8">
                 <div className="mb-8">
                    <h2 className="font-heading text-xl font-bold text-[#3D3831]">{user.name}</h2>
                    <p className="text-sm text-[#706C61] font-medium flex items-center gap-2 mt-1">
