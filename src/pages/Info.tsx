@@ -74,7 +74,7 @@ export default function Info() {
               <div className="h-20 bg-[#FAF9F6] border-b border-[#E5E2D9] relative">
                  <div className="absolute -bottom-10 left-8">
                     <div className="relative group">
-                       <Avatar className="h-24 w-24 border-4 border-white shadow-xl bg-white">
+                       <Avatar className="h-20 w-20 border-4 border-white shadow-xl bg-white">
                          <AvatarImage src={user.avatar || undefined} />
                          <AvatarFallback className="bg-primary text-white text-2xl font-heading font-bold">
                            {user.name.charAt(0)}
