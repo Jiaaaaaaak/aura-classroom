@@ -35,6 +35,10 @@ export default function Login() {
 
   const [forgotOpen, setForgotOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotStep, setForgotStep] = useState<"email" | "verify" | "success">("email");
+  const [verifyCode, setVerifyCode] = useState(["", "", "", "", "", ""]);
+  const [isSendingCode, setIsSendingCode] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const isFilled = email.trim() !== "" && password.trim() !== "";
 
