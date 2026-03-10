@@ -111,7 +111,7 @@ export default function Info() {
 
               {/* Form Content */}
               <div className="pt-14 pb-6 px-8">
-                <div className="mb-8">
+                <div className="mb-5">
                    <h2 className="font-heading text-xl font-bold text-[#3D3831]">{user.name}</h2>
                    <p className="text-sm text-[#706C61] font-medium flex items-center gap-2 mt-1">
                       <Calendar className="w-3.5 h-3.5" />
