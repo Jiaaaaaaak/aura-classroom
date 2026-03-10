@@ -119,7 +119,7 @@ export default function Info() {
                    </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* Field Name */}
                   <div className="flex flex-col gap-2">
                     <Label className="font-heading text-[10px] font-bold text-[#A09C94] uppercase tracking-[0.15em]">顯示姓名</Label>
