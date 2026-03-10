@@ -166,29 +166,29 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
       )}
 
       {/* User profile + logout */}
-      <div className="px-6 pt-6 border-t border-white/5">
-        <div className="flex items-center gap-3 group cursor-pointer" onClick={() => handleNav("/info")}>
-          <div className="w-10 h-10 rounded-full bg-[#3D3831] border border-white/10 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105">
+      <div className="px-6 pt-5 border-t border-white/5">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-[#3D3831] border border-white/10 flex items-center justify-center shrink-0 cursor-pointer hover:scale-105 transition-transform" onClick={() => handleNav("/info")}>
             <span className="font-heading text-sm font-bold text-primary">
               {user.initial}
             </span>
           </div>
-          <div className="flex flex-col min-w-0">
-            <span className="font-heading text-[13px] font-bold truncate group-hover:text-primary transition-colors">
+          <div className="flex flex-col min-w-0 flex-1 cursor-pointer" onClick={() => handleNav("/info")}>
+            <span className="font-heading text-[13px] font-bold truncate hover:text-primary transition-colors">
               {user.name}
             </span>
-            <span className="text-[11px] text-[#706C61] truncate">
+            <span className="text-[10px] text-[#706C61] truncate">
               教育訓練模式
             </span>
           </div>
+          <button
+            onClick={() => handleNav("/login")}
+            className="p-1.5 rounded-md text-[#706C61] hover:text-destructive hover:bg-white/5 transition-all shrink-0"
+            title="登出系統"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+          </button>
         </div>
-        <button
-          onClick={() => handleNav("/login")}
-          className="flex items-center gap-2 w-full mt-3 px-1 py-2 text-[12px] font-heading font-semibold text-[#706C61] hover:text-[#FAF9F6] transition-all rounded-sm group"
-        >
-          <LogOut className="w-4 h-4 shrink-0 group-hover:text-destructive transition-colors" />
-          <span>登出系統</span>
-        </button>
       </div>
     </div>
   );
