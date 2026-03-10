@@ -178,14 +178,14 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
       )}
 
       {/* User profile + logout */}
-      <div className="px-6 pt-5 border-t border-white/5">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-[#3D3831] border border-white/10 flex items-center justify-center shrink-0 cursor-pointer hover:scale-105 transition-transform" onClick={() => handleNav("/info")}>
+      <div className="px-6 pt-5 pb-2 border-t border-white/5 space-y-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleNav("/info")}>
+          <div className="w-9 h-9 rounded-full bg-[#3D3831] border border-white/10 flex items-center justify-center shrink-0 hover:scale-105 transition-transform">
             <span className="font-heading text-sm font-bold text-primary">
               {user.initial}
             </span>
           </div>
-          <div className="flex flex-col min-w-0 flex-1 cursor-pointer" onClick={() => handleNav("/info")}>
+          <div className="flex flex-col min-w-0 flex-1">
             <span className="font-heading text-[13px] font-bold truncate hover:text-primary transition-colors">
               {user.name}
             </span>
@@ -193,14 +193,14 @@ export default function Sidebar({ onNavigate, sessionInfo }: SidebarProps) {
               教育訓練模式
             </span>
           </div>
-          <button
-            onClick={() => setLogoutOpen(true)}
-            className="p-1.5 rounded-md text-[#706C61] hover:text-destructive hover:bg-white/5 transition-all shrink-0"
-            title="登出系統"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-          </button>
         </div>
+        <button
+          onClick={() => setLogoutOpen(true)}
+          className="flex items-center gap-2 w-full px-1 py-1.5 text-[11px] font-heading font-semibold text-[#706C61] hover:text-[#FAF9F6] transition-all rounded-sm group"
+        >
+          <LogOut className="w-3.5 h-3.5 shrink-0 group-hover:text-destructive transition-colors" />
+          <span>登出</span>
+        </button>
       </div>
 
       {/* Logout Confirmation */}
