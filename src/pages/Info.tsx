@@ -57,7 +57,7 @@ export default function Info() {
               </div>
               <div className="relative z-10">
                 <p className="text-xs text-white/50 font-bold uppercase tracking-widest mb-1">Total Sessions</p>
-                <p className="font-heading text-6xl font-bold text-white tracking-tighter">24</p>
+                <p className="font-heading text-5xl font-bold text-white tracking-tighter">24</p>
               </div>
               <div className="w-full h-px bg-white/10 my-2 relative z-10" />
               <div className="flex flex-col gap-1 relative z-10">
