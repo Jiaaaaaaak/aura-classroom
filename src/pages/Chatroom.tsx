@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import classroomBg from "@/assets/classroom-background.png";
@@ -31,8 +31,6 @@ export default function Chatroom() {
   const [isPaused, setIsPaused] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [studentEmotion, setStudentEmotion] = useState<StudentEmotion>("neutral");
-  const [prevImagePath, setPrevImagePath] = useState<string | null>(null);
-  const [isCrossFading, setIsCrossFading] = useState(false);
   const [selectedScenarioId, setSelectedScenarioId] = useState<number | null>(null);
   const [activeScenario, setActiveScenario] = useState<(typeof allScenarios)[0] | null>(null);
   const [pendingScenario, setPendingScenario] = useState<(typeof allScenarios)[0] | null>(null);
@@ -40,6 +38,23 @@ export default function Chatroom() {
   const [helpOpen, setHelpOpen] = useState(false);
   const [voicePromptOpen, setVoicePromptOpen] = useState(false);
   const [soulCardsOpen, setSoulCardsOpen] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
+
+  // Cross-fade state for character image
+  const [displayedEmotion, setDisplayedEmotion] = useState<StudentEmotion>("neutral");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Handle emotion change with cross-fade
+  useEffect(() => {
+    if (studentEmotion !== displayedEmotion) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setDisplayedEmotion(studentEmotion);
+        setIsTransitioning(false);
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [studentEmotion, displayedEmotion]);
 
   // Timer Effect
   useEffect(() => {
@@ -86,8 +101,19 @@ export default function Chatroom() {
     setActiveScenario(pendingScenario);
     setPendingScenario(null);
     setVoicePromptOpen(true);
-    // Preload all emotion images for the selected character
     preloadCharacterImages(profile.personality);
+  };
+
+  const handleProfileBack = () => {
+    setPendingScenario(null);
+  };
+
+  const handleVoiceConfirm = (enableVoice: boolean) => {
+    setVoicePromptOpen(false);
+    setVoiceEnabled(enableVoice);
+    setIsStarted(true);
+    setIsPaused(false);
+    setElapsedSeconds(0);
   };
 
   const handleCloseDetail = () => {
@@ -97,24 +123,26 @@ export default function Chatroom() {
   const handleTogglePause = () => setIsPaused(!isPaused);
   const handleEnd = () => navigate("/feedback", { state: { currentScenarioId: activeScenario?.id } });
 
-  const renderStudentAvatar = () => {
-    if (isPaused) return "⏸️";
-    switch (studentEmotion) {
-      case "angry": return "😤";
-      case "sad": return "🥺";
-      case "thinking": return "🤔";
-      default: return "🧑‍🎓";
-    }
+  const emotionLabel = () => {
+    const labels: Record<string, string> = {
+      angry: "抗拒 · 防衛",
+      sad: "難過 · 退縮",
+      thinking: "學生思考中...",
+      frustrated: "挫折 · 受傷",
+      anxious: "焦慮 · 不安",
+      confident: "自信 · 穩定",
+      happy: "開心 · 放鬆",
+      surprised: "驚訝 · 意外",
+      neutral: "聆聽中",
+    };
+    return labels[studentEmotion] ?? "聆聽中";
   };
 
-  const emotionLabel = () => {
-    switch (studentEmotion) {
-      case "angry": return "抗拒 · 防衛";
-      case "sad": return "難過 · 退縮";
-      case "thinking": return "學生思考中...";
-      default: return "聆聽中";
-    }
-  };
+  const currentImagePath = studentProfile
+    ? getStudentImagePath(studentProfile.personality, displayedEmotion)
+    : null;
+
+  const characterName = studentProfile ? getCharacterName(studentProfile.personality) : "";
 
   // Pass session info to sidebar via AppLayout
   const sessionInfo = isStarted && activeScenario ? {
@@ -148,7 +176,6 @@ export default function Chatroom() {
           </div>
           
           <div className="flex items-center gap-4">
-             {/* Emotion status indicator */}
              {isStarted && (
                <div className="flex items-center gap-2">
                  <div className={`w-2 h-2 rounded-full ${isPaused ? "bg-[#A09C94]" : "bg-green-500 animate-pulse"}`} />
@@ -179,30 +206,55 @@ export default function Chatroom() {
             </div>
           )}
 
-          {/* Student avatar overlay - top left area */}
-          {isStarted && (
-            <div className="absolute top-6 left-8 z-20 flex items-center gap-4 animate-in fade-in duration-500">
-              <div className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-sm border-2 border-white shadow-xl flex items-center justify-center text-3xl">
-                {renderStudentAvatar()}
+          {/* RPG Character Display - Large centered character */}
+          {isStarted && currentImagePath && (
+            <>
+              {/* Character illustration - anchored at bottom center */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 flex items-end justify-center pointer-events-none">
+                <img
+                  src={currentImagePath}
+                  alt={`${characterName} - ${displayedEmotion}`}
+                  className={`h-[55vh] max-h-[500px] object-contain object-bottom drop-shadow-2xl transition-all duration-300 ease-out ${
+                    isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
+                  } ${isPaused ? "brightness-50" : ""}`}
+                />
               </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="font-heading text-base font-bold text-white drop-shadow-md">
-                  {studentProfile ? `${GRADE_LEVELS.find(g => g.id === studentProfile.grade)?.label ?? ""}學生` : "小明（國二）"}
-                </span>
-                {studentProfile && (
-                  <span className="text-[11px] font-bold text-white/90 drop-shadow-sm bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full w-fit">
-                    {PERSONALITY_TRAITS.find(p => p.id === studentProfile.personality)?.emoji}{" "}
-                    {PERSONALITY_TRAITS.find(p => p.id === studentProfile.personality)?.label}
-                  </span>
-                )}
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <div className={`w-1.5 h-1.5 rounded-full ${isPaused ? "bg-[#A09C94]" : "bg-primary animate-pulse"}`} />
-                  <span className="text-xs font-medium text-white/80 drop-shadow-sm">
-                    {emotionLabel()}
-                  </span>
+
+              {/* Student info badge - top left */}
+              <div className="absolute top-4 left-6 z-20 animate-in fade-in duration-500">
+                <div className="flex items-center gap-3 bg-[#3D3831]/70 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-xl border border-white/10">
+                  {/* Mini avatar thumbnail */}
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/30 shadow-md shrink-0">
+                    <img
+                      src={getStudentImagePath(studentProfile!.personality, "neutral")}
+                      alt={characterName}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-heading text-sm font-bold text-white leading-tight">
+                      {characterName}
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] text-white/70">
+                        {GRADE_LEVELS.find(g => g.id === studentProfile!.grade)?.label}
+                      </span>
+                      <span className="text-[10px] text-white/40">·</span>
+                      <span className="text-[10px] text-white/70">
+                        {PERSONALITY_TRAITS.find(p => p.id === studentProfile!.personality)?.emoji}{" "}
+                        {PERSONALITY_TRAITS.find(p => p.id === studentProfile!.personality)?.label}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`w-1.5 h-1.5 rounded-full ${isPaused ? "bg-[#A09C94]" : "bg-green-400 animate-pulse"}`} />
+                      <span className="text-[10px] font-medium text-white/60">
+                        {emotionLabel()}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
 
           {/* PAUSE OVERLAY */}
@@ -241,10 +293,7 @@ export default function Chatroom() {
           {/* 2. DETAIL VIEW */}
           {!isStarted && selectedScenarioId && (() => {
             const found = allScenarios.find(s => s.id === selectedScenarioId);
-            if (!found) {
-              // ID not in allScenarios (e.g. overview mock data) — reset selection
-              return null;
-            }
+            if (!found) return null;
             return (
               <ScenarioDetail 
                 scenario={found} 
@@ -268,10 +317,11 @@ export default function Chatroom() {
               isPaused={isPaused}
               onTogglePause={handleTogglePause}
               onEnd={handleEnd}
-              onEmotionChange={(emo) => setStudentEmotion(emo as any)}
+              onEmotionChange={(emo) => setStudentEmotion(emo as StudentEmotion)}
               voiceEnabled={voiceEnabled}
               personalityId={studentProfile?.personality}
               gradeId={studentProfile?.grade}
+              characterName={characterName}
             />
           )}
         </div>
@@ -282,15 +332,15 @@ export default function Chatroom() {
         scenarios={allScenarios}
         open={soulCardsOpen}
         onClose={() => setSoulCardsOpen(false)}
-      onStart={(scenario: any) => {
+        onStart={(scenario: any) => {
           setSoulCardsOpen(false);
-          // Skip profile select & voice prompt — go directly into chat
           setActiveScenario(scenario);
-          setStudentProfile({ personality: "introverted", grade: "junior-2" });
+          setStudentProfile({ personality: "hedgehog", grade: "upper-elementary" });
           setVoiceEnabled(false);
           setIsStarted(true);
           setIsPaused(false);
           setElapsedSeconds(0);
+          preloadCharacterImages("hedgehog");
         }}
       />
 
