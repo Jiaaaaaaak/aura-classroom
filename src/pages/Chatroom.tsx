@@ -210,11 +210,11 @@ export default function Chatroom() {
           {isStarted && currentImagePath && (
             <>
               {/* Character illustration - anchored at bottom center */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 flex items-end justify-center pointer-events-none">
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 h-[85vh] overflow-hidden flex items-start justify-center pointer-events-none">
                 <img
                   src={currentImagePath}
                   alt={`${characterName} - ${displayedEmotion}`}
-                  className={`h-[55vh] max-h-[500px] object-contain object-bottom drop-shadow-2xl transition-all duration-300 ease-out ${
+                  className={`h-[110vh] object-contain object-top drop-shadow-2xl transition-all duration-300 ease-out ${
                     isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
                   } ${isPaused ? "brightness-50" : ""}`}
                 />
