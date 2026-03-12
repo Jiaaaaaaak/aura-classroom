@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import classroomBg from "@/assets/classroom-background.png";
@@ -21,6 +21,7 @@ import SoulCards from "@/components/chatroom/SoulCards";
 import StudentProfileSelect, { type StudentProfile, PERSONALITY_TRAITS, GRADE_LEVELS } from "@/components/chatroom/StudentProfileSelect";
 
 import { allScenarios, COMPETENCY_GROUPS } from "@/lib/collectionData";
+import { getStudentImagePath, getCharacterName, preloadCharacterImages, type StudentEmotion } from "@/lib/studentCharacter";
 
 export default function Chatroom() {
   const navigate = useNavigate();
