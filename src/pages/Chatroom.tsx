@@ -30,7 +30,9 @@ export default function Chatroom() {
   const [isStarted, setIsStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [studentEmotion, setStudentEmotion] = useState<"neutral" | "angry" | "sad" | "thinking">("neutral");
+  const [studentEmotion, setStudentEmotion] = useState<StudentEmotion>("neutral");
+  const [prevImagePath, setPrevImagePath] = useState<string | null>(null);
+  const [isCrossFading, setIsCrossFading] = useState(false);
   const [selectedScenarioId, setSelectedScenarioId] = useState<number | null>(null);
   const [activeScenario, setActiveScenario] = useState<(typeof allScenarios)[0] | null>(null);
   const [pendingScenario, setPendingScenario] = useState<(typeof allScenarios)[0] | null>(null);
