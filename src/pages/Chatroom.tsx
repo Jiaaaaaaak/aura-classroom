@@ -222,7 +222,7 @@ export default function Chatroom() {
 
               {/* Student info badge - top left */}
               <div className="absolute top-4 left-6 z-20 animate-in fade-in duration-500">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 bg-white/40 backdrop-blur-sm rounded-2xl px-3 py-2" style={{ textShadow: '0 1px 3px rgba(255,255,255,0.8)' }}>
                   {/* Avatar thumbnail */}
                   <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/80 shadow-lg shrink-0 bg-white/90">
                     <img
