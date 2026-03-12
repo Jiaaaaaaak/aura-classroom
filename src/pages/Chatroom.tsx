@@ -160,7 +160,7 @@ export default function Chatroom() {
         <header className="h-14 bg-white/95 backdrop-blur-sm border-b border-[#E5E2D9] flex items-center justify-between px-6 shrink-0 z-20">
           <div className="flex items-center gap-4 pl-12 lg:pl-0">
              {isStarted ? (
-                <h2 className="text-sm font-bold text-[#3D3831] truncate max-w-[500px]">
+                <h2 className="text-sm font-bold text-[#3D3831] truncate mr-10">
                   {activeScenario?.title}——<span className="font-normal text-[#706C61]">「{activeScenario?.description}」</span>
                 </h2>
              ) : (
