@@ -86,20 +86,8 @@ export default function Chatroom() {
     setActiveScenario(pendingScenario);
     setPendingScenario(null);
     setVoicePromptOpen(true);
-  };
-
-  const handleProfileBack = () => {
-    setPendingScenario(null);
-  };
-
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
-
-  const handleVoiceConfirm = (enableVoice: boolean) => {
-    setVoicePromptOpen(false);
-    setVoiceEnabled(enableVoice);
-    setIsStarted(true);
-    setIsPaused(false);
-    setElapsedSeconds(0);
+    // Preload all emotion images for the selected character
+    preloadCharacterImages(profile.personality);
   };
 
   const handleCloseDetail = () => {
