@@ -222,9 +222,9 @@ export default function Chatroom() {
 
               {/* Student info badge - top left */}
               <div className="absolute top-4 left-6 z-20 animate-in fade-in duration-500">
-                <div className="flex items-center gap-3 bg-[#3D3831]/70 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-xl border border-white/10">
-                  {/* Mini avatar thumbnail */}
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/30 shadow-md shrink-0">
+                <div className="flex items-center gap-3">
+                  {/* Avatar thumbnail */}
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/80 shadow-lg shrink-0 bg-white/90">
                     <img
                       src={getStudentImagePath(studentProfile!.personality, "neutral")}
                       alt={characterName}
@@ -232,22 +232,16 @@ export default function Chatroom() {
                     />
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-heading text-sm font-bold text-white leading-tight">
-                      {characterName}
+                    <span className="font-heading text-sm font-bold text-[#3D3831] drop-shadow-sm">
+                      {GRADE_LEVELS.find(g => g.id === studentProfile!.grade)?.label}
+                    </span>
+                    <span className="text-xs font-medium text-primary drop-shadow-sm">
+                      {PERSONALITY_TRAITS.find(p => p.id === studentProfile!.personality)?.emoji}{" "}
+                      {PERSONALITY_TRAITS.find(p => p.id === studentProfile!.personality)?.label}
                     </span>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] text-white/70">
-                        {GRADE_LEVELS.find(g => g.id === studentProfile!.grade)?.label}
-                      </span>
-                      <span className="text-[10px] text-white/40">·</span>
-                      <span className="text-[10px] text-white/70">
-                        {PERSONALITY_TRAITS.find(p => p.id === studentProfile!.personality)?.emoji}{" "}
-                        {PERSONALITY_TRAITS.find(p => p.id === studentProfile!.personality)?.label}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`w-1.5 h-1.5 rounded-full ${isPaused ? "bg-[#A09C94]" : "bg-green-400 animate-pulse"}`} />
-                      <span className="text-[10px] font-medium text-white/60">
+                      <div className={`w-1.5 h-1.5 rounded-full ${isPaused ? "bg-[#A09C94]" : "bg-green-500 animate-pulse"}`} />
+                      <span className="text-[11px] font-medium text-[#706C61] drop-shadow-sm">
                         {emotionLabel()}
                       </span>
                     </div>
